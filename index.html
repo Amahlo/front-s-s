@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S&S - Ventas Accesibles (Tonos Tierra)</title>
+    <title>S&S - HU-10 Búsqueda numérica de clientes</title>
     <!-- Bootstrap 5 CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -82,6 +82,7 @@
         </div>
     </header>
 
+
     <!-- CONTENT BODY -->
     <main class="container-xxl flex-grow-1 py-4 px-3 vstack gap-4">
 
@@ -89,217 +90,78 @@
         <aside class="card bg-earth-100 border border-4 border-earth-600 rounded-4 p-4 shadow-sm">
             <article class="d-flex align-items-start gap-3">
                 <figure class="bg-earth-600 text-white rounded-3 d-flex align-items-center justify-content-center fs-3 m-0 shadow" style="width: 50px; height: 50px; flex-shrink: 0;">
-                    <i class="fa-solid fa-info" aria-hidden="true"></i>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                 </figure>
                 <p class="fs-6 fw-bold text-earth-950 m-0 align-self-center">
-                    <strong class="text-earth-700 d-block small mb-1">Información:</strong>
-                    Cada transacción registrada en esta pantalla actualiza de inmediato el total acumulado de ventas ubicado en la esquina superior derecha.
+                    <strong class="text-earth-700 d-block small mb-1">HU-10 · Buscar participante:</strong>
+                    Toque los números para escribir el teléfono. La lista de participantes se actualiza en cada número, sin usar el teclado del computador.
                 </p>
             </article>
         </aside>
 
-        <!-- NAVIGATION TABS -->
-        <nav class="row g-3" aria-label="Navegación de módulos">
-            <article class="col-12 col-md-6">
-                <button onclick="switchTab('ventas')" id="tab-btn-ventas" class="btn btn-danger w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2">
-                    <i class="fa-solid fa-cash-register fs-4 text-warning" aria-hidden="true"></i>
-                    <span>1. REGISTRAR VENTAS</span>
-                </button>
-            </article>
-            <article class="col-12 col-md-6">
-                <button onclick="switchTab('natillera')" id="tab-btn-natillera" class="btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary">
-                    <i class="fa-solid fa-piggy-bank fs-4 text-earth-700" aria-hidden="true"></i>
-                    <span>2. VER NATILLERA (AHORROS)</span>
-                </button>
-            </article>
-        </nav>
+        <div class="row g-4">
 
-        <!-- MODULE 1: REGISTRO DE VENTAS -->
-        <section id="module-ventas" class="vstack gap-4">
-            
-            <h2 class="h5 fw-black text-earth-900 d-flex align-items-center gap-2 m-0">
-                <i class="fa-solid fa-hand-pointer text-earth-600" aria-hidden="true"></i>
-                <span>PRESIONE UN BOTÓN GRANDE PARA SUMAR UNA VENTA DE HOY:</span>
-            </h2>
+            <!-- TECLADO EN PANTALLA (activo desde que carga la pantalla) -->
+            <section class="col-12 col-lg-6 vstack gap-3" aria-label="Teclado numérico en pantalla">
+                <h2 class="h5 fw-black text-earth-900 d-flex align-items-center gap-2 m-0">
+                    <i class="fa-solid fa-hand-pointer text-earth-600" aria-hidden="true"></i>
+                    <span>TOQUE LOS NÚMEROS DEL TELÉFONO:</span>
+                </h2>
 
-            <!-- PRODUCT BUTTONS GRID -->
-            <div class="row g-3">
-
-                <!-- LOCION AAA 1 -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Perfume AAA Coco Chanel', 180000, 'Loción AAA')" onmouseenter="speakPrompt('Boton grande: Sumar perfume Coco Chanel por ciento ochenta mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-spray-can" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">LOCIÓN AAA</span>
-                                <h3 class="h5 fw-black text-white m-0">Perfume Coco Chanel 100ml</h3>
-                                <output class="fs-5 fw-black text-warning">$180.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
+                <article class="card bg-earth-950 border border-warning border-3 rounded-4 p-3 shadow">
+                    <span class="small fw-bold text-warning text-uppercase">Número o teléfono</span>
+                    <output id="search-display" aria-live="polite" class="font-display fw-black text-warning display-3 d-block" style="min-height: 80px; word-break: break-all;">—</output>
                 </article>
 
-                <!-- LOCION AAA 2 -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Perfume AAA Sauvage Dior', 195000, 'Loción AAA')" onmouseenter="speakPrompt('Boton grande: Sumar perfume Sauvage Dior por ciento noventa y cinco mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-bottle-droplet" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">LOCIÓN AAA</span>
-                                <h3 class="h5 fw-black text-white m-0">Perfume Sauvage Dior 100ml</h3>
-                                <output class="fs-5 fw-black text-warning">$195.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
-                </article>
-
-                <!-- MERCANCIA / PIJAMA -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Pijama Térmica S&S', 110000, 'Ropa/Pijama')" onmouseenter="speakPrompt('Boton grande: Sumar pijama termica por ciento diez mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-shirt" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">MERCANCÍA</span>
-                                <h3 class="h5 fw-black text-white m-0">Pijama Térmica S&S Seda</h3>
-                                <output class="fs-5 fw-black text-warning">$110.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
-                </article>
-
-                <!-- APORTE NATILLERA -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Aporte Natillera Colombiana', 100000, 'Natillera')" onmouseenter="speakPrompt('Boton grande: Sumar aporte de natillera por cien mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-piggy-bank" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">NATILLERA S&S</span>
-                                <h3 class="h5 fw-black text-white m-0">Cuota Natillera Mensual</h3>
-                                <output class="fs-5 fw-black text-warning">$100.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
-                </article>
-
-            </div>
-
-            <!-- MANUAL ENTRY SECTION -->
-            <section class="card bg-earth-100 border border-4 border-earth-600 rounded-4 p-4 shadow-sm">
-                <h3 class="h5 fw-black text-earth-900 d-flex align-items-center gap-2 mb-3">
-                    <i class="fa-solid fa-keyboard text-earth-600" aria-hidden="true"></i>
-                    <span>ESCRIBIR UN VALOR DIFERENTE:</span>
-                </h3>
-                <form onsubmit="handleManualSale(event)" class="row g-3">
-                    <article class="col-12 col-md-5">
-                        <input type="text" id="manual-name" placeholder="Nombre (ej. Vestido)" required class="form-control form-control-lg fw-bold border-2">
-                    </article>
-                    <article class="col-12 col-md-4">
-                        <input type="number" id="manual-price" placeholder="Monto COP ($)" required class="form-control form-control-lg fw-bold border-2">
-                    </article>
-                    <article class="col-12 col-md-3">
-                        <button type="submit" class="btn btn-warning fw-black btn-lg w-100 shadow d-flex align-items-center justify-content-center gap-2">
-                            <i class="fa-solid fa-plus-circle" aria-hidden="true"></i>
-                            <span>REGISTRAR</span>
-                        </button>
-                    </article>
-                </form>
-            </section>
-
-            <!-- RECENT TRANSACTIONS DISPLAY -->
-            <section class="card bg-earth-900 text-white border border-3 border-secondary rounded-4 p-4 shadow">
-                <header class="d-flex align-items-center justify-content-between border-bottom border-secondary pb-3 mb-3">
-                    <h3 class="h5 fw-black text-white m-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-list-check text-warning" aria-hidden="true"></i>
-                        <span>VENTAS REGISTRADAS HOY</span>
-                    </h3>
-                    <button onclick="resetDailyTotal()" class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
-                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
-                        <span>REINICIAR A $0</span>
-                    </button>
-                </header>
-
-                <div id="transactions-container" class="vstack gap-2 overflow-y-auto" style="max-height: 320px;">
-                    <!-- Dynamic entries injected via JS -->
+                <div id="keypad" class="row g-3">
+                        <article class="col-4"><button data-key="1" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">1</button></article>
+                        <article class="col-4"><button data-key="2" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">2</button></article>
+                        <article class="col-4"><button data-key="3" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">3</button></article>
+                        <article class="col-4"><button data-key="4" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">4</button></article>
+                        <article class="col-4"><button data-key="5" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">5</button></article>
+                        <article class="col-4"><button data-key="6" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">6</button></article>
+                        <article class="col-4"><button data-key="7" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">7</button></article>
+                        <article class="col-4"><button data-key="8" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">8</button></article>
+                        <article class="col-4"><button data-key="9" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">9</button></article>
+                        <article class="col-4"><button data-key="borrar" class="key btn btn-earth-200 bg-earth-200 text-earth-950 w-100 border border-secondary rounded-4 shadow fw-bold fs-5 d-flex flex-column align-items-center justify-content-center" style="min-height: 90px;"><i class="fa-solid fa-delete-left fs-3" aria-hidden="true"></i><span>BORRAR</span></button></article>
+                        <article class="col-4"><button data-key="0" class="key btn bg-earth-900 text-white w-100 border border-3 border-secondary rounded-4 shadow fs-1 fw-bold" style="min-height: 90px;">0</button></article>
+                        <article class="col-4"><button data-key="limpiar" class="key btn btn-danger w-100 border border-warning border-3 rounded-4 shadow fw-bold fs-5 d-flex flex-column align-items-center justify-content-center" style="min-height: 90px;"><i class="fa-solid fa-eraser fs-3" aria-hidden="true"></i><span>LIMPIAR</span></button></article>
                 </div>
             </section>
 
-        </section>
+            <!-- RESULTADOS -->
+            <section class="col-12 col-lg-6 vstack gap-3 align-self-start" aria-label="Resultados de la búsqueda">
+                <h2 id="result-count" class="h5 fw-black text-earth-900 d-flex align-items-center gap-2 m-0">
+                    <i class="fa-solid fa-users text-earth-600" aria-hidden="true"></i>
+                    <span id="result-count-text">PARTICIPANTES</span>
+                </h2>
 
-        <!-- MODULE 2: NATILLERA S&S -->
-        <section id="module-natillera" class="vstack gap-4 d-none">
-            <article class="card bg-earth-900 text-white border border-warning border-3 rounded-4 p-4 shadow">
-                <section class="d-flex align-items-center gap-3">
-                    <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                        <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
-                    </figure>
-                    <article>
-                        <h2 class="h4 fw-black text-white m-0">MÓDULO DE NATILLERA S&S</h2>
-                        <p class="text-warning fw-bold m-0 small">Fondo de Ahorro y Préstamos para Socios</p>
-                    </article>
-                </section>
+                <div id="results" class="vstack gap-3"></div>
 
-                <div class="row g-3 mt-3">
-                    <article class="col-12 col-sm-6">
-                        <div class="bg-earth-950 border border-warning p-3 rounded-3">
-                            <span class="small fw-black text-warning">FONDO TOTAL ACUMULADO</span>
-                            <output class="h3 fw-black text-white d-block m-0 mt-1">$14.850.000 COP</output>
-                        </div>
-                    </article>
-                    <article class="col-12 col-sm-6">
-                        <div class="bg-earth-950 border border-warning p-3 rounded-3">
-                            <span class="small fw-black text-warning">PRÉSTAMOS ACTIVOS</span>
-                            <output class="h3 fw-black text-warning d-block m-0 mt-1">$4.200.000 COP</output>
-                        </div>
-                    </article>
-                </div>
-            </article>
+                <!-- NO ENCONTRADO -->
+                <article id="not-found" class="card bg-earth-950 border border-warning border-3 rounded-4 p-4 shadow text-center vstack gap-3 d-none" role="alert">
+                    <p class="font-display fw-black text-warning display-4 m-0">NO ENCONTRADO</p>
+                    <button id="btn-limpiar-nf" class="btn btn-danger w-100 py-3 fw-black fs-3 rounded-4 shadow d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-eraser" aria-hidden="true"></i>
+                        <span>LIMPIAR</span>
+                    </button>
+                </article>
 
-            <article class="card bg-earth-100 border border-3 border-secondary rounded-4 p-4 shadow">
-                <h3 class="h5 fw-black text-earth-950 mb-3">SOCIOS DE LA NATILLERA:</h3>
-                
-                <div class="vstack gap-3">
-                    <section class="card bg-white p-3 border border-secondary rounded-3 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 shadow-sm">
-                        <article>
-                            <h4 class="h5 fw-black text-earth-950 m-0">Deerly Hernandez</h4>
-                            <p class="small text-earth-700 fw-bold m-0">Ahorro: $1.200.000 COP • Estado: AL DÍA</p>
-                        </article>
-                        <button onclick="addQuickSale('Aporte Natillera Deerly', 100000, 'Natillera'); switchTab('ventas');" class="btn btn-earth-600 bg-earth-600 text-white fw-black btn-sm">
-                            + REGISTRAR APORTE DE $100.000
+                <!-- PAGINACIÓN -->
+                <nav id="pager" class="row g-3" aria-label="Paginación de resultados">
+                    <article class="col-6">
+                        <button id="btn-prev" class="btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-bold fs-4 rounded-4 shadow border border-secondary d-flex align-items-center justify-content-center gap-2">
+                            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>ANTERIOR</span>
                         </button>
-                    </section>
-
-                    <section class="card bg-white p-3 border border-secondary rounded-3 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 shadow-sm">
-                        <article>
-                            <h4 class="h5 fw-black text-earth-950 m-0">Carlos Gomez</h4>
-                            <p class="small text-earth-700 fw-bold m-0">Ahorro: $900.000 COP • Préstamo: $500.000 COP</p>
-                        </article>
-                        <button onclick="addQuickSale('Aporte Natillera Carlos', 100000, 'Natillera'); switchTab('ventas');" class="btn btn-earth-600 bg-earth-600 text-white fw-black btn-sm">
-                            + REGISTRAR APORTE DE $100.000
+                    </article>
+                    <article class="col-6">
+                        <button id="btn-next" class="btn btn-danger w-100 py-3 fw-bold fs-4 rounded-4 shadow d-flex align-items-center justify-content-center gap-2">
+                            <span>SIGUIENTE</span><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                         </button>
-                    </section>
-                </div>
-            </article>
-        </section>
+                    </article>
+                </nav>
+            </section>
+        </div>
 
     </main>
 
@@ -312,10 +174,12 @@
             <article class="flex-grow-1">
                 <span class="small fw-black text-uppercase d-block">ASISTENTE DE VOZ INTEGRADO:</span>
                 <output id="spoken-text" class="fw-black fs-6">
-                    "Presione cualquiera de los botones grandes para sumar una venta al total ubicado en la esquina superior derecha."
+                    "Marque el número de teléfono con los botones grandes. La lista se filtra sola."
                 </output>
             </article>
         </section>
     </aside>
 
-   
+    <script src="main.js"></script>
+</body>
+</html>
