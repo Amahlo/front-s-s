@@ -158,7 +158,7 @@ Criterios de Aceptación:
 
 [ ] Mensaje gigante "NO ENCONTRADO" + botón "Limpiar" si no hay coincidencias.
 
-- [ ] HU-11: Botón gigante de "Deshacer" (Luis Loiza)
+- [ ] HU-11: Botón gigante de "Deshacer" (Luis Isaza)
 
 Como usuario con poca experiencia tecnológica...
 Quiero un botón visible que diga "BORRAR ÚLTIMO MOVIMIENTO"...
