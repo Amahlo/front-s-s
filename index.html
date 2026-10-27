@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    
 </head>
 
 <body id="app-body" class="d-flex flex-column min-vh-100">
@@ -64,20 +62,30 @@
                 </article>
             </hgroup>
 
-            <!-- HU-03 REQUIREMENT: GIGANTIC DAILY SALES DISPLAY -->
-            <aside class="card bg-earth-950 border border-warning border-3 rounded-4 p-4 shadow-lg text-center text-md-end w-100 w-md-auto">
-                <span class="small fw-bold text-warning uppercase tracking-wide d-flex align-items-center justify-content-center justify-content-md-end gap-2">
-                    <i class="fa-solid fa-calculator text-warning" aria-hidden="true"></i>
-                    <span>VENTAS DE HOY (HU-03)</span>
-                </span>
-                <output id="daily-total-display" class="font-display fw-black text-warning fs-1 my-1">
-                    $1.450.000 <span class="fs-4 text-light">COP</span>
-                </output>
-                <time class="small text-light d-flex align-items-center justify-content-center justify-content-md-end gap-1">
-                    <i class="fa-solid fa-clock-rotate-left text-warning" aria-hidden="true"></i>
-                    <span>Reinicio automático a las <span id="reloj">90</span></span>
-                </time>
-            </aside>
+            <!-- HU-03 & HU-09 HEADER CONTROLS -->
+            <div class="d-flex flex-column flex-sm-row align-items-center gap-3 w-100 w-md-auto">
+                
+                <!-- HU-09 BOTÓN RESUMEN DEL DÍA -->
+                <button onclick="switchTab('resumen')" id="btn-header-resumen" class="btn btn-warning fw-black py-3 px-4 rounded-4 shadow-lg border border-2 border-white text-earth-950 d-flex align-items-center justify-content-center gap-2">
+                    <i class="fa-solid fa-chart-pie fs-3 text-earth-950" aria-hidden="true"></i>
+                    <span class="fs-5">RESUMEN DEL DÍA (HU-09)</span>
+                </button>
+
+                <!-- HU-03 REQUIREMENT: GIGANTIC DAILY SALES DISPLAY -->
+                <aside class="card bg-earth-950 border border-warning border-3 rounded-4 p-3 shadow-lg text-center text-md-end w-100 w-sm-auto">
+                    <span class="small fw-bold text-warning uppercase tracking-wide d-flex align-items-center justify-content-center justify-content-md-end gap-2">
+                        <i class="fa-solid fa-calculator text-warning" aria-hidden="true"></i>
+                        <span>VENTAS DE HOY (HU-03)</span>
+                    </span>
+                    <output id="daily-total-display" class="font-display fw-black text-warning fs-2 my-1">
+                        $1.450.000 <span class="fs-5 text-light">COP</span>
+                    </output>
+                    <time class="small text-light d-flex align-items-center justify-content-center justify-content-md-end gap-1">
+                        <i class="fa-solid fa-clock-rotate-left text-warning" aria-hidden="true"></i>
+                        <span>Reinicio a las <span id="reloj">00:00</span></span>
+                    </time>
+                </aside>
+            </div>
 
         </div>
     </header>
@@ -100,16 +108,22 @@
 
         <!-- NAVIGATION TABS -->
         <nav class="row g-3" aria-label="Navegación de módulos">
-            <article class="col-12 col-md-6">
+            <article class="col-12 col-md-4">
                 <button onclick="switchTab('ventas')" id="tab-btn-ventas" class="btn btn-danger w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2">
                     <i class="fa-solid fa-cash-register fs-4 text-warning" aria-hidden="true"></i>
                     <span>1. REGISTRAR VENTAS</span>
                 </button>
             </article>
-            <article class="col-12 col-md-6">
+            <article class="col-12 col-md-4">
                 <button onclick="switchTab('natillera')" id="tab-btn-natillera" class="btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary">
                     <i class="fa-solid fa-piggy-bank fs-4 text-earth-700" aria-hidden="true"></i>
                     <span>2. VER NATILLERA (AHORROS)</span>
+                </button>
+            </article>
+            <article class="col-12 col-md-4">
+                <button onclick="switchTab('resumen')" id="tab-btn-resumen" class="btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary">
+                    <i class="fa-solid fa-receipt fs-4 text-earth-700" aria-hidden="true"></i>
+                    <span>3. RESUMEN Y CIERRE (HU-09)</span>
                 </button>
             </article>
         </nav>
@@ -301,6 +315,92 @@
             </article>
         </section>
 
+        <!-- MODULE 3: HU-09 RESUMEN DEL DÍA CON NÚMEROS GIGANTES (ANDRÉS VÉLEZ) -->
+        <section id="module-resumen" class="vstack gap-4 d-none">
+            
+            <article class="card bg-earth-900 text-white border border-4 border-warning rounded-4 p-4 shadow-lg">
+                <header class="d-flex align-items-center justify-content-between border-bottom border-warning pb-3 mb-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
+                            <i class="fa-solid fa-calculator" aria-hidden="true"></i>
+                        </figure>
+                        <div>
+                            <h2 class="h3 fw-black text-white m-0">HU-09: RESUMEN DEL DÍA Y CIERRE DE CAJA</h2>
+                            <p class="text-warning fw-bold m-0 small">Pantalla de Solo Lectura para Arqueo de Caja Física (Andrés Vélez)</p>
+                        </div>
+                    </div>
+                    <span class="badge bg-warning text-earth-950 fs-6 fw-black p-2 d-none d-md-inline">
+                        <i class="fa-solid fa-lock me-1"></i> SOLO LECTURA
+                    </span>
+                </header>
+
+                <!-- 3 CUADROS CON NÚMEROS GIGANTES -->
+                <div class="row g-4">
+                    <!-- CUADRO 1: VENTAS TOTALES -->
+                    <article class="col-12 col-md-4">
+                        <div class="card bg-earth-950 border border-3 border-warning rounded-4 p-4 text-center shadow">
+                            <span class="small fw-black text-warning uppercase d-block mb-1">
+                                <i class="fa-solid fa-cash-register me-1"></i> 1. VENTAS TOTALES
+                            </span>
+                            <output id="summary-sales-giant" class="font-display fw-black text-warning text-giant d-block my-2">
+                                $1.450.000
+                            </output>
+                            <span class="small text-light">Lociones, Pijamas y Mercancía</span>
+                        </div>
+                    </article>
+
+                    <!-- CUADRO 2: ABONOS TOTALES -->
+                    <article class="col-12 col-md-4">
+                        <div class="card bg-earth-950 border border-3 border-info rounded-4 p-4 text-center shadow">
+                            <span class="small fw-black text-info uppercase d-block mb-1">
+                                <i class="fa-solid fa-piggy-bank me-1"></i> 2. ABONOS TOTALES
+                            </span>
+                            <output id="summary-abonos-giant" class="font-display fw-black text-info text-giant d-block my-2">
+                                $200.000
+                            </output>
+                            <span class="small text-light">Ahorros y Cuotas Natillera</span>
+                        </div>
+                    </article>
+
+                    <!-- CUADRO 3: PRÉSTAMOS TOTALES -->
+                    <article class="col-12 col-md-4">
+                        <div class="card bg-earth-950 border border-3 border-danger rounded-4 p-4 text-center shadow">
+                            <span class="small fw-black text-danger uppercase d-block mb-1">
+                                <i class="fa-solid fa-hand-holding-dollar me-1"></i> 3. PRÉSTAMOS TOTALES
+                            </span>
+                            <output id="summary-loans-giant" class="font-display fw-black text-danger text-giant d-block my-2">
+                                $0
+                            </output>
+                            <span class="small text-light">Desembolsos del Día</span>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- RESUMEN EFECTIVO EN CAJA -->
+                <div class="card bg-earth-950 border border-2 border-light rounded-4 p-4 mt-4 text-center">
+                    <span class="h5 fw-black text-white m-0 mb-2 d-block">
+                        <i class="fa-solid fa-coins text-warning me-2"></i>EFECTIVO ESTIMADO EN CAJA FÍSICA:
+                    </span>
+                    <output id="summary-cash-giant" class="font-display fw-black text-warning fs-1">
+                        $1.650.000 COP
+                    </output>
+                </div>
+
+                <!-- BOTÓN GIGANTE CERRAR DÍA Y REINICIAR (CON CONFIRMACIÓN) -->
+                <div class="mt-4 pt-2 text-center">
+                    <button onclick="closeDayAndReset()" class="btn btn-danger btn-lg w-100 py-4 fw-black fs-3 rounded-4 shadow-lg border border-3 border-white text-uppercase d-flex align-items-center justify-content-center gap-3">
+                        <i class="fa-solid fa-power-off fs-1 text-warning" aria-hidden="true"></i>
+                        <span>CERRAR DÍA Y REINICIAR</span>
+                    </button>
+                    <p class="small text-warning fw-bold mt-2 m-0">
+                        * Al presionar este botón se pedirá confirmación antes de reiniciar la caja a $0 COP para el siguiente día.
+                    </p>
+                </div>
+
+            </article>
+
+        </section>
+
     </main>
 
     <!-- VOICE ASSISTANT BAR -->
@@ -318,4 +418,7 @@
         </section>
     </aside>
 
-   
+    <!-- JavaScript local link -->
+    <script src="main.js"></script>
+</body>
+</html>
