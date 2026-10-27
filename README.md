@@ -172,7 +172,7 @@ Criterios de Aceptación:
 
 [ ] Solo permite deshacer la transacción inmediatamente anterior.
 
-- [ ] HU-12: Historial visual simplificado (Hernan Perez)
+- [ ] HU-12: Historial visual simplificado (Diogenes Zambrano)
 
 Como dueño del negocio S y S...
 Quiero ver una lista estática con mis últimos 5 movimientos...
