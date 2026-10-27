@@ -318,4 +318,27 @@
         </section>
     </aside>
 
-   
+   <dialog id="loan-confirm-overlay" class="loan-overlay" aria-labelledby="loan-confirm-question">
+    <article class="container text-center text-white vstack gap-4 align-items-center">
+        <i class="fa-solid fa-triangle-exclamation text-warning loan-overlay-icon" aria-hidden="true"></i>
+        <p class="text-warning fw-bold fs-4 m-0">
+            Préstamo para: <span id="loan-confirm-member"></span>
+        </p>
+        <h2 id="loan-confirm-question" class="loan-overlay-question fw-black m-0">
+            ¿SEGURO QUE PRESTA <output id="loan-confirm-amount" class="text-warning">$0</output>?
+        </h2>
+
+        <section class="row g-3 w-100 justify-content-center">
+            <article class="col-12 col-md-7">
+                <button type="button" id="loan-confirm-yes" onclick="confirmLoan()" class="btn btn-prestar loan-giant-btn w-100 rounded-4 shadow-lg">
+                    SÍ
+                </button>
+            </article>
+            <article class="col-12 col-md-5">
+                <button type="button" id="loan-confirm-no" onclick="cancelLoan()" class="btn btn-light loan-giant-btn w-100 rounded-4 shadow-lg" autofocus>
+                    NO
+                </button>
+            </article>
+        </section>
+    </article>
+</dialog>

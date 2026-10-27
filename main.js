@@ -124,3 +124,92 @@ function toggleAudioAssist() {
 window.onload = function() {
     render();
 };
+
+// ============ HU-06: REGISTRAR PRÉSTAMO ============
+let natilleraFund = 14850000;   // mismo valor que muestra el HTML
+let activeLoans = 4200000;
+let pendingLoan = null;
+
+function renderNatillera() {
+    const outs = document.querySelectorAll('#module-natillera output');
+    if (outs.length < 2) return;
+    outs[0].textContent = `${formatCOP(natilleraFund)} COP`; // Fondo total
+    outs[1].textContent = `${formatCOP(activeLoans)} COP`;   // Préstamos activos
+}
+
+function requestLoan(member, inputEl) {
+    const amount = parseInt(inputEl.value, 10);
+
+    if (isNaN(amount) || amount <= 0) {
+        speakPrompt('Escriba primero cuánto dinero va a prestar.');
+        inputEl.focus();
+        return;
+    }
+    if (amount > natilleraFund) {
+        speakPrompt(`El fondo solo tiene ${formatCOP(natilleraFund)} pesos. No alcanza para ese préstamo.`);
+        inputEl.focus();
+        return;
+    }
+
+    pendingLoan = { member, amount, inputEl };
+    document.getElementById('loan-confirm-member').textContent = member;
+    document.getElementById('loan-confirm-amount').textContent = formatCOP(amount);
+    document.getElementById('loan-confirm-overlay').showModal(); // el foco cae en "NO" por autofocus
+    speakPrompt(`¿Seguro que presta ${formatCOP(amount)} pesos a ${member}?`);
+}
+
+function confirmLoan() {
+    if (!pendingLoan) return;
+    const { member, amount, inputEl } = pendingLoan;
+
+    natilleraFund -= amount;   // sale dinero del fondo
+    activeLoans += amount;     // y queda como préstamo activo
+    renderNatillera();
+
+    inputEl.value = '';
+    document.getElementById('loan-confirm-overlay').close();
+    speakPrompt(`Préstamo de ${formatCOP(amount)} pesos registrado a ${member}. El fondo queda en ${formatCOP(natilleraFund)} pesos.`);
+}
+
+function cancelLoan() {
+    speakPrompt('Préstamo cancelado. No se movió dinero.');
+    document.getElementById('loan-confirm-overlay').close();
+}
+
+// Inyecta formulario (monto + botón PRESTAR) junto a cada botón de aporte
+function initLoanButtons() {
+    const aportes = document.querySelectorAll('#module-natillera button[onclick*="addQuickSale"]');
+
+    aportes.forEach(btnAporte => {
+        const member = btnAporte.closest('section').querySelector('h4').textContent.trim();
+
+        const form = document.createElement('form');
+        form.className = 'd-flex align-items-center gap-2';
+        form.noValidate = true; // las validaciones las damos nosotros, con voz
+        form.innerHTML = `
+            <input type="number" min="1" class="form-control form-control-sm fw-bold border-2"
+                   style="max-width: 150px;" placeholder="Monto COP"
+                   aria-label="Monto a prestar a ${member}">
+            <button type="submit" class="btn btn-prestar btn-lg shadow">
+                <i class="fa-solid fa-hand-holding-dollar me-1" aria-hidden="true"></i> PRESTAR
+            </button>
+        `;
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            requestLoan(member, form.querySelector('input'));
+        });
+        btnAporte.insertAdjacentElement('afterend', form);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initLoanButtons();
+    renderNatillera();
+
+    const dialog = document.getElementById('loan-confirm-overlay');
+    // 'cancel' se dispara cuando el usuario presiona Escape
+    dialog.addEventListener('cancel', () => speakPrompt('Préstamo cancelado. No se movió dinero.'));
+    // 'close' se dispara siempre que se cierra, por cualquier vía
+    dialog.addEventListener('close', () => { pendingLoan = null; });
+});
