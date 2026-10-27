@@ -301,6 +301,9 @@
             </article>
         </section>
 
+        <!-- Espacio para que el botón fijo de deshacer no tape el final de la página -->
+        <div style="height: 6rem;" aria-hidden="true"></div>
+
     </main>
 
     <!-- VOICE ASSISTANT BAR -->
@@ -318,4 +321,36 @@
         </section>
     </aside>
 
-   
+    <!-- HU-11: BOTÓN GIGANTE DE DESHACER (siempre visible, abajo a la izquierda) -->
+    <button type="button" id="btn-undo" onclick="openUndoModal()" onmouseenter="speakPrompt('Botón grande: borrar el último movimiento')" class="btn btn-danger btn-undo-fixed d-flex align-items-center gap-3 shadow-lg">
+        <i class="fa-solid fa-rotate-left fs-2" aria-hidden="true"></i>
+        <span>BORRAR ÚLTIMO MOVIMIENTO</span>
+    </button>
+
+    <!-- HU-11: CONFIRMACIÓN CON EL DETALLE EN LETRA GIGANTE -->
+    <div class="modal fade" id="undo-modal" tabindex="-1" aria-labelledby="undo-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-earth-100 border border-4 border-danger rounded-4 shadow-lg">
+                <header class="modal-header border-0 pb-0">
+                    <h2 id="undo-title" class="modal-title h3 fw-bolder text-earth-950">¿BORRAR ESTE MOVIMIENTO?</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </header>
+                <section class="modal-body">
+                    <article class="bg-earth-950 border border-warning border-4 rounded-4 p-4">
+                        <span id="undo-cat" class="d-block fs-5 fw-bolder text-warning text-uppercase"></span>
+                        <p id="undo-name" class="display-6 fw-bolder text-white m-0"></p>
+                        <output id="undo-price" class="d-block display-3 fw-bolder text-warning font-display"></output>
+                    </article>
+                </section>
+                <footer class="modal-footer border-0 pt-0 gap-3">
+                    <button type="button" id="undo-cancel" class="btn btn-dark btn-giant flex-fill m-0" data-bs-dismiss="modal">NO, VOLVER</button>
+                    <button type="button" id="undo-confirm" class="btn btn-danger btn-giant flex-fill m-0" onclick="confirmUndo()">SÍ, BORRAR</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
