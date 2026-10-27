@@ -106,7 +106,7 @@ Criterios de Aceptación:
 
 [ ] Confirmación en pantalla completa: "¿SEGURO QUE PRESTA [Monto]?" con un botón gigante de "SÍ".
 
-- [ ] HU-07: Consulta rápida de saldo por participante (Felipe Loiaza)
+- [ ] HU-07: Consulta rápida de saldo por participante (Felipe Isaza)
 
 Como administrador de S y S...
 Quiero que al tocar un nombre, la mitad de la pantalla muestre su saldo total en números gigantes...
@@ -158,7 +158,7 @@ Criterios de Aceptación:
 
 [ ] Mensaje gigante "NO ENCONTRADO" + botón "Limpiar" si no hay coincidencias.
 
-- [ ] HU-11: Botón gigante de "Deshacer" (Luis Loiza)
+- [ ] HU-11: Botón gigante de "Deshacer" (Luis Loaiza)
 
 Como usuario con poca experiencia tecnológica...
 Quiero un botón visible que diga "BORRAR ÚLTIMO MOVIMIENTO"...
