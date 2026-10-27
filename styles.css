@@ -1,4 +1,3 @@
-
 :root {
     --earth-50: #FDFBF7;
     --earth-100: #F5EFE6;
@@ -25,3 +24,52 @@ h1, h2, h3, h4, .font-display {
 .text-earth-950 { color: var(--earth-950) !important; }
 .text-earth-700 { color: var(--earth-700) !important; }
 .border-earth-600 { border-color: var(--earth-600) !important; }
+
+/* HU: ÚLTIMOS 5 MOVIMIENTOS (verde = entrada, rojo = salida) */
+:root {
+    --mov-in: #1B5E20;
+    --mov-in-border: #81C784;
+    --mov-out: #B71C1C;
+    --mov-out-border: #EF9A9A;
+}
+.bg-mov-in { background-color: var(--mov-in) !important; color: #fff; }
+.bg-mov-out { background-color: var(--mov-out) !important; color: #fff; }
+
+.movement-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 110px;
+    padding: 1.5rem 1.75rem;
+    border-radius: 1.25rem;
+    border: 4px solid;
+    color: #fff;
+}
+.movement-in { background-color: var(--mov-in); border-color: var(--mov-in-border); }
+.movement-out { background-color: var(--mov-out); border-color: var(--mov-out-border); }
+
+.movement-icon { font-size: 2.75rem; flex-shrink: 0; }
+.movement-type {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 1.25rem;
+    letter-spacing: .08em;
+}
+.movement-name {
+    font-weight: 800;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+.movement-amount {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 2.25rem;
+    white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+    .movement-item { flex-wrap: wrap; gap: .75rem 1rem; padding: 1.25rem; }
+    .movement-name { font-size: 1.4rem; }
+    .movement-amount { font-size: 1.9rem; width: 100%; text-align: end; }
+}

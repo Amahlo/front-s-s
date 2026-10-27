@@ -18,7 +18,7 @@
 <body id="app-body" class="d-flex flex-column min-vh-100">
 
     <!-- TOP ACCESSIBILITY TOOLBAR -->
-    <aside class="bg-earth-950 text-light border-bottom border-4 border-earth-600 px-3 py-2" aria-label="Barra de Accesibilidad">
+    <aside class="hide-in-movements bg-earth-950 text-light border-bottom border-4 border-earth-600 px-3 py-2" aria-label="Barra de Accesibilidad">
         <nav class="container-xxl d-flex flex-wrap align-items-center justify-content-between gap-3">
             
             <section class="d-flex align-items-center gap-3">
@@ -86,7 +86,7 @@
     <main class="container-xxl flex-grow-1 py-4 px-3 vstack gap-4">
 
         <!-- INFO BANNER -->
-        <aside class="card bg-earth-100 border border-4 border-earth-600 rounded-4 p-4 shadow-sm">
+        <aside class="hide-in-movements card bg-earth-100 border border-4 border-earth-600 rounded-4 p-4 shadow-sm">
             <article class="d-flex align-items-start gap-3">
                 <figure class="bg-earth-600 text-white rounded-3 d-flex align-items-center justify-content-center fs-3 m-0 shadow" style="width: 50px; height: 50px; flex-shrink: 0;">
                     <i class="fa-solid fa-info" aria-hidden="true"></i>
@@ -99,17 +99,23 @@
         </aside>
 
         <!-- NAVIGATION TABS -->
-        <nav class="row g-3" aria-label="Navegación de módulos">
-            <article class="col-12 col-md-6">
+        <nav class="hide-in-movements row g-3" aria-label="Navegación de módulos">
+            <article class="col-12 col-md-4">
                 <button onclick="switchTab('ventas')" id="tab-btn-ventas" class="btn btn-danger w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2">
                     <i class="fa-solid fa-cash-register fs-4 text-warning" aria-hidden="true"></i>
                     <span>1. REGISTRAR VENTAS</span>
                 </button>
             </article>
-            <article class="col-12 col-md-6">
+            <article class="col-12 col-md-4">
                 <button onclick="switchTab('natillera')" id="tab-btn-natillera" class="btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary">
                     <i class="fa-solid fa-piggy-bank fs-4 text-earth-700" aria-hidden="true"></i>
                     <span>2. VER NATILLERA (AHORROS)</span>
+                </button>
+            </article>
+            <article class="col-12 col-md-4">
+                <button onclick="switchTab('movimientos')" id="tab-btn-movimientos" class="btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary">
+                    <i class="fa-solid fa-clock-rotate-left fs-4 text-earth-700" aria-hidden="true"></i>
+                    <span>3. ÚLTIMOS MOVIMIENTOS</span>
                 </button>
             </article>
         </nav>
@@ -301,6 +307,31 @@
             </article>
         </section>
 
+        <!-- MODULE 3: ÚLTIMOS 5 MOVIMIENTOS (lista estática, sin scroll) -->
+        <section id="module-movimientos" class="vstack gap-4 d-none">
+            <article class="card bg-earth-900 text-white border border-3 border-secondary rounded-4 p-4 shadow">
+                <header class="border-bottom border-secondary pb-3 mb-4">
+                    <h2 class="h3 fw-black text-white m-0 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-warning" aria-hidden="true"></i>
+                        <span>MIS ÚLTIMOS 5 MOVIMIENTOS</span>
+                    </h2>
+                    <p class="d-flex flex-wrap gap-2 m-0 mt-3">
+                        <span class="badge bg-mov-in fs-6 p-2 border border-light">VERDE = ENTRADA</span>
+                        <span class="badge bg-mov-out fs-6 p-2 border border-light">ROJO = SALIDA</span>
+                    </p>
+                </header>
+
+                <ol id="movements-container" class="list-unstyled vstack gap-3 m-0 p-0">
+                    <!-- Dynamic entries injected via JS -->
+                </ol>
+            </article>
+
+            <button onclick="switchTab('ventas')" class="btn btn-warning w-100 py-4 fw-black fs-3 rounded-4 shadow d-flex align-items-center justify-content-center gap-3 text-dark">
+                <i class="fa-solid fa-house" aria-hidden="true"></i>
+                <span>VOLVER AL INICIO</span>
+            </button>
+        </section>
+
     </main>
 
     <!-- VOICE ASSISTANT BAR -->
@@ -317,5 +348,3 @@
             </article>
         </section>
     </aside>
-
-   
