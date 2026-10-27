@@ -25,3 +25,323 @@ h1, h2, h3, h4, .font-display {
 .text-earth-950 { color: var(--earth-950) !important; }
 .text-earth-700 { color: var(--earth-700) !important; }
 .border-earth-600 { border-color: var(--earth-600) !important; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #2b2b2b;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.saldo-container {
+  width: 100%;
+  max-width: 950px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Tarjeta Principal */
+.card-balance {
+  background: radial-gradient(circle at center, #0a4d2e 0%, #032d19 100%);
+  border: 2px solid #147a46;
+  border-radius: 14px;
+  padding: 18px 24px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.card-balance__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.badge-status {
+  background-color: #001f11;
+  color: #38ef7d;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.view-tag {
+  color: #8da498;
+  font-weight: 600;
+}
+
+.card-balance__content {
+  text-align: center;
+  margin: 15px 0 20px;
+}
+
+.user-name {
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+
+.account-subtitle {
+  color: #b7d6c6;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+
+.amount-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #8ca89b;
+  letter-spacing: 1px;
+}
+
+.main-amount {
+  font-size: 3.8rem;
+  font-weight: 900;
+  color: #38ef7d;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  text-shadow: 0 0 25px rgba(56, 239, 125, 0.35);
+}
+
+.currency-tag {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #b7d6c6;
+  letter-spacing: 1px;
+}
+
+.card-balance__footer {
+  display: flex;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 14px;
+}
+
+.footer-stat {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-divider {
+  width: 1px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+.stat-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #8ca89b;
+}
+
+.stat-value {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.stat-value--debt {
+  color: #ffcc00;
+}
+
+/* Botones */
+.actions-group {
+  display: flex;
+  gap: 16px;
+}
+
+.btn-action {
+  flex: 1;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 0.1s ease, filter 0.2s ease;
+}
+
+.btn-action:hover {
+  filter: brightness(1.08);
+}
+
+.btn-action:active {
+  transform: scale(0.99);
+}
+
+.btn--deposit {
+  background-color: #1a7f50;
+}
+
+.btn--loan {
+  background-color: #cf2e3e;
+}
+
+/* Sección de Socios */
+.partners-section {
+  background-color: #f7f1e5;
+  border: 3px solid #b34a1b;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.partners-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.partners-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #2b2b2b;
+}
+
+.badge-count {
+  background-color: #3b281b;
+  color: #e5b323;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.partners-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.partner-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 18px;
+  background-color: #ffffff;
+  border: 2px solid #a8b0b5;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.partner-item.is-selected {
+  background-color: #3a2218;
+  border: 2.5px solid #d46b13;
+}
+
+.partner-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #e6ded6;
+  color: #333333;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-right: 14px;
+}
+
+.avatar--accent {
+  background-color: #f7a800;
+  color: #1a1a1a;
+}
+
+.partner-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.partner-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #1d1d1d;
+}
+
+.partner-item.is-selected .partner-name {
+  color: #ffffff;
+}
+
+.partner-state {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.state--positive { color: #873617; }
+.state--negative { color: #a12c25; }
+.state--accent { color: #f7a800; }
+
+.partner-pill {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.pill--positive {
+  background-color: #157947;
+}
+
+.pill--negative {
+  background-color: #cb3543;
+}
+
+/* Asistente de Voz */
+.voice-assistant-bar {
+  background-color: #f7a800;
+  border-radius: 4px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.assistant-icon {
+  background-color: #1f1f1f;
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.assistant-text small {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #2b2b2b;
+}
+
+.assistant-text p {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #1a1a1a;
+}
