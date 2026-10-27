@@ -1,40 +1,27 @@
- body {
-            font-size: 19px;
-            touch-action: manipulation;
-            background-color: #FDFBF7;
-            color: #2C1A14;
-        }
 
-        /* High Contrast Warm Yellow/Black Theme Override */
-        .high-contrast {
-            background-color: #000000 !important;
-            color: #FFD700 !important;
-        }
-        .high-contrast button {
-            border: 4px solid #FFD700 !important;
-            background-color: #121212 !important;
-            color: #FFD700 !important;
-        }
-        .high-contrast button:hover, .high-contrast button:focus {
-            background-color: #FFD700 !important;
-            color: #000000 !important;
-        }
-        .high-contrast .earth-card {
-            background-color: #0a0a0a !important;
-            border: 4px solid #FFD700 !important;
-            color: #FFFFFF !important;
-        }
-        .high-contrast .earth-text {
-            color: #FFD700 !important;
-        }
-
-        /* Gigantic Focus Outlines for Accessibility */
-        button:focus, input:focus {
-            outline: 5px solid #D97706 !important;
-            outline-offset: 4px;
-        }
-
-        /* Dynamic Font Scale Adjusters */
-        .text-scale-1 { font-size: 100%; }
-        .text-scale-2 { font-size: 125%; }
-        .text-scale-3 { font-size: 150%; }
+:root {
+    --earth-50: #FDFBF7;
+    --earth-100: #F5EFE6;
+    --earth-200: #EADBC8;
+    --earth-300: #DAC0A3;
+    --earth-600: #B84A2A;
+    --earth-700: #9C4027;
+    --earth-900: #3E2723;
+    --earth-950: #2C1A14;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--earth-50);
+    color: var(--earth-950);
+}
+h1, h2, h3, h4, .font-display {
+    font-family: 'Outfit', sans-serif;
+}
+.bg-earth-950 { background-color: var(--earth-950) !important; }
+.bg-earth-900 { background-color: var(--earth-900) !important; }
+.bg-earth-600 { background-color: var(--earth-600) !important; }
+.bg-earth-100 { background-color: var(--earth-100) !important; }
+.bg-earth-200 { background-color: var(--earth-200) !important; }
+.text-earth-950 { color: var(--earth-950) !important; }
+.text-earth-700 { color: var(--earth-700) !important; }
+.border-earth-600 { border-color: var(--earth-600) !important; }
