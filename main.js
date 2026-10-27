@@ -124,3 +124,94 @@ function toggleAudioAssist() {
 window.onload = function() {
     render();
 };
+
+// ==========================================
+// LÓGICA HU-05: TECLADO Y ABONOS NATILLERA
+// ==========================================
+
+let abonoAmount = 0;
+let selectedMemberId = '';
+
+// Diccionario en memoria para simular los saldos
+let natilleraMembers = {
+    'deerly': { name: 'Deerly Hernandez', ahorro: 1200000, extraText: ' • Estado: AL DÍA' },
+    'carlos': { name: 'Carlos Gomez', ahorro: 900000, extraText: ' • Préstamo: $500.000 COP' }
+};
+
+function openAbonoKeypad(memberId, memberName) {
+    selectedMemberId = memberId;
+    abonoAmount = 0;
+    updateKeypadDisplay();
+    
+    document.getElementById('keypad-member-name').textContent = memberName;
+    
+    // Transición entre listas y teclado ocultando/mostrando clases Bootstrap (d-none)
+    document.getElementById('natillera-list-view').classList.add('d-none');
+    document.getElementById('natillera-keypad-view').classList.remove('d-none');
+    
+    speakPrompt(`Teclado abierto. Digite el monto a abonar para ${memberName}.`);
+}
+
+function closeAbonoKeypad() {
+    document.getElementById('natillera-list-view').classList.remove('d-none');
+    document.getElementById('natillera-keypad-view').classList.add('d-none');
+    speakPrompt("Abono cancelado. Volviendo a la lista de socios.");
+}
+
+function pressKeypad(num) {
+    let currentStr = abonoAmount.toString();
+    // Limita a 10 caracteres para que no desborde la pantalla ni se ingresen montos irreales
+    if(currentStr.length < 10) { 
+        abonoAmount = parseInt(currentStr === '0' ? num.toString() : currentStr + num.toString());
+        updateKeypadDisplay();
+    }
+}
+
+function clearKeypad() {
+    abonoAmount = 0;
+    updateKeypadDisplay();
+}
+
+function updateKeypadDisplay() {
+    document.getElementById('keypad-display').textContent = formatCOP(abonoAmount);
+}
+
+function confirmAbono() {
+    if(abonoAmount === 0) {
+        speakPrompt("No se puede registrar. El monto ingresado es cero pesos.");
+        return;
+    }
+
+    let member = natilleraMembers[selectedMemberId];
+
+    // 1. Registramos el abono en el historial global del día reutilizando addQuickSale
+    addQuickSale(`Abono Natillera (${member.name})`, abonoAmount, 'Natillera');
+
+    // 2. Sumamos matemáticamente al saldo del socio
+    member.ahorro += abonoAmount;
+    let newAhorroText = formatCOP(member.ahorro);
+    
+    // 3. Actualizamos el texto en la tarjeta del socio
+    document.getElementById(`info-${selectedMemberId}`).innerHTML = 
+        `Ahorro: ${newAhorroText} ${member.extraText}`;
+
+    // 4. Cerramos el panel de teclado
+    closeAbonoKeypad();
+
+    // 5. EFECTO DE DESTELLO (CRITERIO DE ACEPTACIÓN 3)
+    let memberCard = document.getElementById(`member-card-${selectedMemberId}`);
+    
+    // Aplicamos fondo verde y lo hacemos un poquito más grande temporalmente
+    memberCard.classList.remove('bg-white');
+    memberCard.classList.add('bg-success', 'text-white');
+    memberCard.style.transform = 'scale(1.03)';
+    
+    // Lo regresamos a la normalidad después de 800ms
+    setTimeout(() => {
+        memberCard.classList.remove('bg-success', 'text-white');
+        memberCard.classList.add('bg-white');
+        memberCard.style.transform = 'scale(1)';
+    }, 800); 
+
+    speakPrompt(`Abono exitoso. Se sumaron ${formatCOP(abonoAmount)} al ahorro de ${member.name}.`);
+}
