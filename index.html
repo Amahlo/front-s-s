@@ -317,5 +317,99 @@
             </article>
         </section>
     </aside>
+   <main class="saldo-container">
+  <!-- Tarjeta Principal de Saldo -->
+  <section class="card-balance">
+    <header class="card-balance__top">
+      <span class="badge-status status--success">✔ SALDO A FAVOR</span>
+      <span class="view-tag">HU-07: Vista Inmediata</span>
+    </header>
 
-   
+    <article class="card-balance__content">
+      <h2 class="user-name" id="userName">Deerly Hernandez</h2>
+      <p class="account-subtitle">Ahorro neto disponible en fondo S&amp;S</p>
+
+      <span class="amount-label">SALDO TOTAL DISPONIBLE</span>
+      <h1 class="main-amount" id="totalBalance">$1.200.000</h1>
+      <span class="currency-tag">PESOS COP</span>
+    </article>
+
+    <footer class="card-balance__footer">
+      <article class="footer-stat">
+        <span class="stat-title">TOTAL APORTADO</span>
+        <strong class="stat-value" id="totalAportado">$1.200.000</strong>
+      </article>
+      <hr class="stat-divider">
+      <article class="footer-stat">
+        <span class="stat-title">DEUDA / PRÉSTAMO</span>
+        <strong class="stat-value stat-value--debt" id="totalDeuda">$0</strong>
+      </article>
+    </footer>
+  </section>
+
+  <!-- Botones de Acción Rápida -->
+  <nav class="actions-group">
+    <button type="button" class="btn-action btn--deposit">
+      <span class="btn-icon">⊕</span> + ABONAR
+    </button>
+    <button type="button" class="btn-action btn--loan">
+      <span class="btn-icon">🫴</span> - PRESTAR
+    </button>
+  </nav>
+
+  <!-- Lista de Socios -->
+  <section class="partners-section">
+    <header class="partners-header">
+      <h3 class="partners-title">👥 TOCAR UN NOMBRE PARA VER SALDO:</h3>
+      <span class="badge-count">4 Socios</span>
+    </header>
+
+    <ul class="partners-list" id="partnersList">
+      <!-- Socio 1 -->
+      <li class="partner-item" data-id="1">
+        <span class="partner-avatar">F</span>
+        <article class="partner-info">
+          <strong class="partner-name">Felipe Isaza</strong>
+          <small class="partner-state state--positive">Saldo a favor</small>
+        </article>
+        <span class="partner-pill pill--positive">+$1.850.000</span>
+      </li>
+
+      <!-- Socio 2 (Activo) -->
+      <li class="partner-item is-selected" data-id="2">
+        <span class="partner-avatar avatar--accent">D</span>
+        <article class="partner-info">
+          <strong class="partner-name">Deerly Hernandez</strong>
+          <small class="partner-state state--accent">Saldo a favor</small>
+        </article>
+        <span class="partner-pill pill--positive">+$1.200.000</span>
+      </li>
+
+      <!-- Socio 3 -->
+      <li class="partner-item" data-id="3">
+        <span class="partner-avatar">C</span>
+        <article class="partner-info">
+          <strong class="partner-name">Carlos Gomez</strong>
+          <small class="partner-state state--negative">Deuda pendiente</small>
+        </article>
+        <span class="partner-pill pill--negative">-$550.000</span>
+      </li>
+
+      <!-- Socio 4 -->
+      <li class="partner-item" data-id="4">
+        <span class="partner-avatar">M</span>
+        <article class="partner-info">
+          <strong class="partner-name">Maiky Vergara</strong>
+          <small class="partner-state state--negative">Deuda pendiente</small>
+        </article>
+        <span class="partner-pill pill--negative">-$400.000</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- Barra de Notificación / Asistente -->
+  <aside class="voice-assistant-bar">
+    <span class="assistant-icon">🔊</span>
+    <article class="assistant-text">
+      <small>ASISTENTE DE VOZ:</small>
+      <p id="assistantMessage">"Participante Deerly

@@ -124,3 +124,80 @@ function toggleAudioAssist() {
 window.onload = function() {
     render();
 };
+document.addEventListener('DOMContentLoaded', () => {
+  // Datos interactivos de cada participante
+  const socios = {
+    1: {
+      nombre: "Felipe Isaza",
+      saldo: "$1.850.000",
+      aportado: "$1.850.000",
+      deuda: "$0",
+      estado: "SALDO A FAVOR",
+      mensaje: '"Participante Felipe Isaza. Saldo a favor por $1.850.000 pesos."'
+    },
+    2: {
+      nombre: "Deerly Hernandez",
+      saldo: "$1.200.000",
+      aportado: "$1.200.000",
+      deuda: "$0",
+      estado: "SALDO A FAVOR",
+      mensaje: '"Participante Deerly Hernandez. Saldo a favor por $1.200.000 pesos."'
+    },
+    3: {
+      nombre: "Carlos Gomez",
+      saldo: "-$550.000",
+      aportado: "$0",
+      deuda: "$550.000",
+      estado: "DEUDA PENDIENTE",
+      mensaje: '"Participante Carlos Gomez. Deuda pendiente por $550.000 pesos."'
+    },
+    4: {
+      nombre: "Maiky Vergara",
+      saldo: "-$400.000",
+      aportado: "$0",
+      deuda: "$400.000",
+      estado: "DEUDA PENDIENTE",
+      mensaje: '"Participante Maiky Vergara. Deuda pendiente por $400.000 pesos."'
+    }
+  };
+
+  const partnerItems = document.querySelectorAll('.partner-item');
+  const userNameElem = document.getElementById('userName');
+  const totalBalanceElem = document.getElementById('totalBalance');
+  const totalAportadoElem = document.getElementById('totalAportado');
+  const totalDeudaElem = document.getElementById('totalDeuda');
+  const assistantMsgElem = document.getElementById('assistantMessage');
+
+  partnerItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const id = item.dataset.id;
+      const data = socios[id];
+      if (!data) return;
+
+      // Actualizar estado de selección visual
+      partnerItems.forEach(el => {
+        el.classList.remove('is-selected');
+        const av = el.querySelector('.partner-avatar');
+        if (av) av.classList.remove('avatar--accent');
+      });
+
+      item.classList.add('is-selected');
+      const avatar = item.querySelector('.partner-avatar');
+      if (avatar) avatar.classList.add('avatar--accent');
+
+      // Actualizar datos del panel principal
+      userNameElem.textContent = data.nombre;
+      totalBalanceElem.textContent = data.saldo;
+      totalAportadoElem.textContent = data.aportado;
+      totalDeudaElem.textContent = data.deuda;
+      assistantMsgElem.textContent = data.mensaje;
+
+      // Color del total si es negativo o positivo
+      if (data.saldo.startsWith('-')) {
+        totalBalanceElem.style.color = '#ff6b6b';
+      } else {
+        totalBalanceElem.style.color = '#38ef7d';
+      }
+    });
+  });
+});
