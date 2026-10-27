@@ -1,7 +1,7 @@
-
 let dailyTotal = 1450000;
 let audioEnabled = true;
 let highContrast = false;
+let undoAvailable = true; // HU-11: solo se puede deshacer la última transacción, una vez
 
 let salesHistory = [
     { id: 1, name: 'Perfume Coco Chanel', price: 180000, cat: 'Loción AAA' },
@@ -39,6 +39,7 @@ function render() {
 function addQuickSale(name, price, cat) {
     dailyTotal += price;
     salesHistory.push({ id: Date.now(), name: name, price: price, cat: cat });
+    undoAvailable = true;
     render();
     speakPrompt(`Se sumó ${name} por ${formatCOP(price)}. El nuevo total es ${formatCOP(dailyTotal)} pesos.`);
 }
@@ -60,8 +61,47 @@ function handleManualSale(e) {
 function resetDailyTotal() {
     dailyTotal = 0;
     salesHistory = [];
+    undoAvailable = false;
     render();
     speakPrompt("Las ventas del día han sido reiniciadas a cero pesos.");
+}
+
+// ===== HU-11: Deshacer el último movimiento =====
+function openUndoModal() {
+    const last = salesHistory[salesHistory.length - 1];
+
+    if (!last) {
+        speakPrompt("No hay ningún movimiento para borrar.");
+        return;
+    }
+    if (!undoAvailable) {
+        speakPrompt("Solo se puede borrar el último movimiento, y ya lo borró. Registre una venta nueva para volver a usar este botón.");
+        return;
+    }
+
+    document.getElementById('undo-cat').textContent = last.cat;
+    document.getElementById('undo-name').textContent = last.name;
+    document.getElementById('undo-price').textContent = formatCOP(last.price) + ' COP';
+
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('undo-modal')).show();
+    speakPrompt(`¿Borrar ${last.name} por ${formatCOP(last.price)}? Presione el botón rojo para borrar o el botón negro para volver.`);
+}
+
+function confirmUndo() {
+    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('undo-modal'));
+    const last = salesHistory[salesHistory.length - 1];
+
+    if (!last || !undoAvailable) {
+        modal.hide();
+        return;
+    }
+
+    salesHistory.pop();
+    dailyTotal -= last.price;
+    undoAvailable = false;
+    modal.hide();
+    render();
+    speakPrompt(`Se borró ${last.name} por ${formatCOP(last.price)}. El nuevo total es ${formatCOP(dailyTotal)} pesos.`);
 }
 
 function switchTab(tab) {
@@ -123,4 +163,9 @@ function toggleAudioAssist() {
 
 window.onload = function() {
     render();
+
+    // HU-11: el foco empieza en "NO, VOLVER" para evitar borrar por error
+    document.getElementById('undo-modal').addEventListener('shown.bs.modal', function () {
+        document.getElementById('undo-cancel').focus();
+    });
 };
