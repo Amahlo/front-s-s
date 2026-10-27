@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    
 </head>
 
 <body id="app-body" class="d-flex flex-column min-vh-100">
@@ -274,31 +272,25 @@
                 </div>
             </article>
 
-            <article class="card bg-earth-100 border border-3 border-secondary rounded-4 p-4 shadow">
-                <h3 class="h5 fw-black text-earth-950 mb-3">SOCIOS DE LA NATILLERA:</h3>
-                
-                <div class="vstack gap-3">
-                    <section class="card bg-white p-3 border border-secondary rounded-3 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 shadow-sm">
-                        <article>
-                            <h4 class="h5 fw-black text-earth-950 m-0">Deerly Hernandez</h4>
-                            <p class="small text-earth-700 fw-bold m-0">Ahorro: $1.200.000 COP • Estado: AL DÍA</p>
-                        </article>
-                        <button onclick="addQuickSale('Aporte Natillera Deerly', 100000, 'Natillera'); switchTab('ventas');" class="btn btn-earth-600 bg-earth-600 text-white fw-black btn-sm">
-                            + REGISTRAR APORTE DE $100.000
-                        </button>
-                    </section>
+            <!-- INTEGRATED NATILLA CONTAINER -->
+            <section class="natilla-container card bg-earth-100 border border-3 border-secondary rounded-4 p-4 shadow">
+                <!-- Encabezado con acción superior -->
+                <header class="top-action d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="h5 fw-black text-earth-950 m-0">SOCIOS DE LA NATILLERA:</h3>
+                    <button id="btnAddPersona" class="btn btn-warning fw-black btn-sm">+ Agregar Persona</button>
+                </header>
 
-                    <section class="card bg-white p-3 border border-secondary rounded-3 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 shadow-sm">
-                        <article>
-                            <h4 class="h5 fw-black text-earth-950 m-0">Carlos Gomez</h4>
-                            <p class="small text-earth-700 fw-bold m-0">Ahorro: $900.000 COP • Préstamo: $500.000 COP</p>
-                        </article>
-                        <button onclick="addQuickSale('Aporte Natillera Carlos', 100000, 'Natillera'); switchTab('ventas');" class="btn btn-earth-600 bg-earth-600 text-white fw-black btn-sm">
-                            + REGISTRAR APORTE DE $100.000
-                        </button>
-                    </section>
-                </div>
-            </article>
+                <!-- Contenido principal de la lista (Máximo 4 por página) -->
+                <main id="participantesContainer" class="participants-grid vstack gap-3">
+                    <!-- Los botones gigantes se inyectarán dinámicamente vía JavaScript -->
+                </main>
+
+                <!-- Pie de página con navegación inmensa -->
+                <footer class="bottom-nav d-flex justify-content-between gap-3 mt-4 pt-3 border-top border-secondary">
+                    <button id="btnAnterior" class="btn btn-earth-700 text-white fw-bold w-50 py-2">ANTERIOR</button>
+                    <button id="btnSiguiente" class="btn btn-earth-700 text-white fw-bold w-50 py-2">SIGUIENTE</button>
+                </footer>
+            </section>
         </section>
 
     </main>
@@ -318,4 +310,6 @@
         </section>
     </aside>
 
+</body>
+</html>
    
