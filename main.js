@@ -1,4 +1,3 @@
-
 let dailyTotal = 1450000;
 let audioEnabled = true;
 let highContrast = false;
@@ -11,15 +10,53 @@ let salesHistory = [
     { id: 5, name: 'Combo Mercancía S&S', price: 865000, cat: 'Ropa/Pijama' }
 ];
 
+// ==========================================
+// NUEVO: ESTADO Y LÓGICA DE LA NATILLERA
+// ==========================================
+let participantes = ["Juan Pérez", "Koralyn", "Carlos Mendoza", "Ana Gómez", "Sofía Ruiz", "Andrés Felipe"];
+let paginaActual = 0;
+const elementosPorPagina = 4;
+
+function renderizarPagina() {
+    const contenedor = document.getElementById("participantesContainer");
+    if (!contenedor) return;
+    contenedor.innerHTML = "";
+
+    const inicio = paginaActual * elementosPorPagina;
+    const fin = inicio + elementosPorPagina;
+    const participantesPagina = participantes.slice(inicio, fin);
+
+    participantesPagina.forEach(nombre => {
+        const boton = document.createElement("button");
+        boton.className = "participant-btn";
+        boton.textContent = nombre;
+        boton.onclick = () => {
+            // Al hacer clic en un socio, registra su aporte en las ventas y avisa por voz
+            addQuickSale(`Aporte Natillera (${nombre})`, 100000, 'Natillera');
+            speakPrompt(`Se registró el aporte de natillera de ${nombre} por 100 mil pesos.`);
+        };
+        contenedor.appendChild(boton);
+    });
+
+    const btnAnterior = document.getElementById("btnAnterior");
+    const btnSiguiente = document.getElementById("btnSiguiente");
+    
+    if (btnAnterior) btnAnterior.disabled = paginaActual === 0;
+    if (btnSiguiente) btnSiguiente.disabled = fin >= participantes.length;
+}
+
 function formatCOP(num) {
     return '$' + num.toLocaleString('es-CO');
 }
 
 function render() {
     const display = document.getElementById('daily-total-display');
-    display.innerHTML = `${formatCOP(dailyTotal)} <span class="fs-4 text-light">COP</span>`;
+    if (display) {
+        display.innerHTML = `${formatCOP(dailyTotal)} <span class="fs-4 text-light">COP</span>`;
+    }
 
     const container = document.getElementById('transactions-container');
+    if (!container) return;
     container.innerHTML = '';
 
     salesHistory.slice().reverse().forEach(s => {
@@ -86,7 +123,9 @@ function switchTab(tab) {
 }
 
 function speakPrompt(text) {
-    document.getElementById('spoken-text').textContent = `"${text}"`;
+    const spokenTextEl = document.getElementById('spoken-text');
+    if (spokenTextEl) spokenTextEl.textContent = `"${text}"`;
+    
     if (audioEnabled && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
@@ -111,16 +150,52 @@ function toggleAudioAssist() {
     const icon = document.getElementById('audio-icon');
 
     if (audioEnabled) {
-        btnText.textContent = "Voz Guiada: SI";
-        icon.className = "fa-solid fa-volume-high";
+        if (btnText) btnText.textContent = "Voz Guiada: SI";
+        if (icon) icon.className = "fa-solid fa-volume-high";
         speakPrompt("Asistencia de voz activada.");
     } else {
-        btnText.textContent = "Voz Guiada: NO";
-        icon.className = "fa-solid fa-volume-xmark";
-        document.getElementById('spoken-text').textContent = "Asistencia de voz silenciada.";
+        if (btnText) btnText.textContent = "Voz Guiada: NO";
+        if (icon) icon.className = "fa-solid fa-volume-xmark";
+        const spokenTextEl = document.getElementById('spoken-text');
+        if (spokenTextEl) spokenTextEl.textContent = "Asistencia de voz silenciada.";
     }
 }
 
+// Configuración de eventos al cargar la ventana
 window.onload = function() {
     render();
+    renderizarPagina();
+
+    // Event listeners para la natillera
+    const btnAddPersona = document.getElementById("btnAddPersona");
+    if (btnAddPersona) {
+        btnAddPersona.addEventListener("click", () => {
+            const nuevoNombre = prompt("Ingrese el nombre de la persona:");
+            if (nuevoNombre && nuevoNombre.trim() !== "") {
+                participantes.push(nuevoNombre.trim());
+                renderizarPagina();
+                speakPrompt(`Se agregó a ${nuevoNombre.trim()} a la natillera.`);
+            }
+        });
+    }
+
+    const btnAnterior = document.getElementById("btnAnterior");
+    if (btnAnterior) {
+        btnAnterior.addEventListener("click", () => {
+            if (paginaActual > 0) {
+                paginaActual--;
+                renderizarPagina();
+            }
+        });
+    }
+
+    const btnSiguiente = document.getElementById("btnSiguiente");
+    if (btnSiguiente) {
+        btnSiguiente.addEventListener("click", () => {
+            if ((paginaActual + 1) * elementosPorPagina < participantes.length) {
+                paginaActual++;
+                renderizarPagina();
+            }
+        });
+    }
 };
