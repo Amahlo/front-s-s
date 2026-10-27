@@ -125,6 +125,28 @@
             <!-- PRODUCT BUTTONS GRID -->
             <div class="row g-3">
 
+<!-- HU-08: ALERTA DE INVENTARIO ESTILO SEMÁFORO -->
+<section id="module-inventario" class="card bg-earth-100 border border-4 border-earth-600 rounded-4 p-4 shadow-sm vstack gap-3" aria-labelledby="inventario-titulo">
+
+    <h2 id="inventario-titulo" class="h5 fw-black text-earth-900 d-flex align-items-center gap-2 m-0">
+        <i class="fa-solid fa-triangle-exclamation text-earth-700" aria-hidden="true"></i>
+        <span>ESTADO DE INVENTARIO:</span>
+    </h2>
+
+    <p class="fs-6 fw-bold text-earth-950 m-0">
+        Si un producto queda en <strong>POCO STOCK</strong>, su botón de venta se pondrá con borde amarillo para avisarte que debes hacer pedido.
+    </p>
+
+    <ul id="inventory-list" class="list-unstyled vstack gap-3 m-0">
+        <!-- Los productos se muestran aquí con JavaScript -->
+    </ul>
+
+    <output id="inventory-alert" role="status" aria-live="polite" class="inventory-alert fw-black fs-5 text-earth-950">
+        Inventario revisado correctamente.
+    </output>
+
+</section>
+
                 <!-- LOCION AAA 1 -->
                 <article class="col-12 col-lg-6">
                     <button onclick="addQuickSale('Perfume AAA Coco Chanel', 180000, 'Loción AAA')" onmouseenter="speakPrompt('Boton grande: Sumar perfume Coco Chanel por ciento ochenta mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
@@ -318,4 +340,4 @@
         </section>
     </aside>
 
-   
+   <script src="main.js"></script>
