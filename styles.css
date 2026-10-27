@@ -1,4 +1,6 @@
-
+/* ==========================================
+   VARIABLES DE COLOR (TONOS TIERRA)
+   ========================================== */
 :root {
     --earth-50: #FDFBF7;
     --earth-100: #F5EFE6;
@@ -9,19 +11,56 @@
     --earth-900: #3E2723;
     --earth-950: #2C1A14;
 }
+
+/* ==========================================
+   TIPOGRAFÍA Y ESTILOS BASE
+   ========================================== */
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--earth-50);
     color: var(--earth-950);
+    transition: all 0.3s ease; /* Transición suave para el modo de alto contraste */
 }
+
 h1, h2, h3, h4, .font-display {
     font-family: 'Outfit', sans-serif;
 }
+
+/* ==========================================
+   CLASES UTILITARIAS PERSONALIZADAS (BOOTSTRAP)
+   ========================================== */
 .bg-earth-950 { background-color: var(--earth-950) !important; }
 .bg-earth-900 { background-color: var(--earth-900) !important; }
 .bg-earth-600 { background-color: var(--earth-600) !important; }
 .bg-earth-100 { background-color: var(--earth-100) !important; }
 .bg-earth-200 { background-color: var(--earth-200) !important; }
+
 .text-earth-950 { color: var(--earth-950) !important; }
 .text-earth-700 { color: var(--earth-700) !important; }
+
 .border-earth-600 { border-color: var(--earth-600) !important; }
+
+/* ==========================================
+   ACCESIBILIDAD: ALTO CONTRASTE
+   ========================================== */
+body.high-contrast {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    filter: contrast(1.2);
+}
+
+body.high-contrast .card {
+    border-color: #ffffff !important;
+}
+
+body.high-contrast .text-earth-950,
+body.high-contrast .text-earth-700 {
+    color: #ffffff !important;
+}
+
+/* ==========================================
+   ACCESIBILIDAD: ESCALADO DE TEXTO
+   ========================================== */
+.text-scale-1 { font-size: 1rem; }
+.text-scale-2 { font-size: 1.15rem; }
+.text-scale-3 { font-size: 1.3rem; }
