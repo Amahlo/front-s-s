@@ -1,88 +1,79 @@
 
-let dailyTotal = 1450000;
 let audioEnabled = true;
 let highContrast = false;
 
-let salesHistory = [
-    { id: 1, name: 'Perfume Coco Chanel', price: 180000, cat: 'Loción AAA' },
-    { id: 2, name: 'Pijama Térmica S&S', price: 110000, cat: 'Ropa/Pijama' },
-    { id: 3, name: 'Perfume Sauvage Dior', price: 195000, cat: 'Loción AAA' },
-    { id: 4, name: 'Aporte Natillera', price: 100000, cat: 'Natillera' },
-    { id: 5, name: 'Combo Mercancía S&S', price: 865000, cat: 'Ropa/Pijama' }
+// Datos de ejemplo (se reemplazan por la lista real de la natillera)
+const participantes = [
+    { nombre: 'María Fernanda Gómez', tel: '3001234567' },
+    { nombre: 'Carlos Andrés Ruiz',   tel: '3109876543' },
+    { nombre: 'Luz Marina Herrera',   tel: '3157654321' },
+    { nombre: 'José Luis Pérez',      tel: '3201112233' },
+    { nombre: 'Ana Sofía Torres',     tel: '3012223344' },
+    { nombre: 'Pedro Pablo Díaz',     tel: '3123334455' },
+    { nombre: 'Rosa Elena Vargas',    tel: '3134445566' },
+    { nombre: 'Jorge Iván Castro',    tel: '3005556677' }
 ];
 
-function formatCOP(num) {
-    return '$' + num.toLocaleString('es-CO');
+const POR_PAGINA = 4;
+let busqueda = '';
+let pagina = 0;
+
+function filtrar() {
+    if (busqueda === '') return participantes;
+    return participantes.filter(p => p.tel.includes(busqueda));
+}
+
+function formatTel(t) {
+    return t.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
 }
 
 function render() {
-    const display = document.getElementById('daily-total-display');
-    display.innerHTML = `${formatCOP(dailyTotal)} <span class="fs-4 text-light">COP</span>`;
+    const lista = filtrar();
+    const total = lista.length;
+    const paginas = Math.max(1, Math.ceil(total / POR_PAGINA));
+    if (pagina >= paginas) pagina = paginas - 1;
 
-    const container = document.getElementById('transactions-container');
+    document.getElementById('search-display').textContent = busqueda === '' ? '—' : busqueda;
+
+    const container = document.getElementById('results');
     container.innerHTML = '';
-
-    salesHistory.slice().reverse().forEach(s => {
-        const el = document.createElement('article');
-        el.className = 'p-3 bg-earth-950 border border-secondary rounded-3 d-flex align-items-center justify-content-between fw-bold';
+    lista.slice(pagina * POR_PAGINA, pagina * POR_PAGINA + POR_PAGINA).forEach(p => {
+        const el = document.createElement('button');
+        el.className = 'card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between';
+        el.onclick = function () { speakPrompt(`Seleccionó a ${p.nombre}`); };
         el.innerHTML = `
-            <div>
-                <div class="text-white fs-6">${s.name}</div>
-                <div class="small text-warning fw-bold uppercase">${s.cat}</div>
-            </div>
-            <div class="text-warning fs-5">+${formatCOP(s.price)}</div>
+            <article>
+                <h3 class="h5 fw-bold text-white m-0">${p.nombre}</h3>
+                <output class="fs-4 fw-bold text-warning">${formatTel(p.tel)}</output>
+            </article>
+            <i class="fa-solid fa-chevron-right fs-2 text-warning" aria-hidden="true"></i>
         `;
         container.appendChild(el);
     });
+
+    const vacio = total === 0;
+    document.getElementById('not-found').classList.toggle('d-none', !vacio);
+    document.getElementById('pager').classList.toggle('d-none', vacio);
+    document.getElementById('result-count-text').textContent = vacio
+        ? 'SIN RESULTADOS'
+        : `${total} PARTICIPANTE${total === 1 ? '' : 'S'} · PÁGINA ${pagina + 1} DE ${paginas}`;
+    document.getElementById('btn-prev').disabled = pagina === 0;
+    document.getElementById('btn-next').disabled = pagina >= paginas - 1;
 }
 
-function addQuickSale(name, price, cat) {
-    dailyTotal += price;
-    salesHistory.push({ id: Date.now(), name: name, price: price, cat: cat });
-    render();
-    speakPrompt(`Se sumó ${name} por ${formatCOP(price)}. El nuevo total es ${formatCOP(dailyTotal)} pesos.`);
-}
-
-function handleManualSale(e) {
-    e.preventDefault();
-    const nameEl = document.getElementById('manual-name');
-    const priceEl = document.getElementById('manual-price');
-    const name = nameEl.value.trim();
-    const price = parseInt(priceEl.value);
-
-    if (name && !isNaN(price) && price > 0) {
-        addQuickSale(name, price, 'Venta Manual');
-        nameEl.value = '';
-        priceEl.value = '';
+function pulsar(k) {
+    if (k === 'limpiar') {
+        busqueda = '';
+        speakPrompt('Búsqueda limpiada.');
+    } else if (k === 'borrar') {
+        busqueda = busqueda.slice(0, -1);
+    } else if (busqueda.length < 10) {
+        busqueda += k;
+        speakPrompt(k);
     }
-}
-
-function resetDailyTotal() {
-    dailyTotal = 0;
-    salesHistory = [];
+    pagina = 0;
     render();
-    speakPrompt("Las ventas del día han sido reiniciadas a cero pesos.");
-}
-
-function switchTab(tab) {
-    const mVentas = document.getElementById('module-ventas');
-    const mNatillera = document.getElementById('module-natillera');
-    const btnVentas = document.getElementById('tab-btn-ventas');
-    const btnNatillera = document.getElementById('tab-btn-natillera');
-
-    if (tab === 'ventas') {
-        mVentas.classList.remove('d-none');
-        mNatillera.classList.add('d-none');
-        btnVentas.className = "btn btn-danger w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2";
-        btnNatillera.className = "btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary";
-        speakPrompt("Pantalla de Registro de Ventas seleccionada.");
-    } else {
-        mVentas.classList.add('d-none');
-        mNatillera.classList.remove('d-none');
-        btnNatillera.className = "btn btn-danger w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2";
-        btnVentas.className = "btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary";
-        speakPrompt("Pantalla de Natillera y Ahorros seleccionada.");
-    }
+    if (filtrar().length === 0) speakPrompt('No encontrado. Presione limpiar.');
 }
 
 function speakPrompt(text) {
@@ -121,6 +112,10 @@ function toggleAudioAssist() {
     }
 }
 
-window.onload = function() {
+window.onload = function () {
+    document.querySelectorAll('.key').forEach(b => b.addEventListener('click', () => pulsar(b.dataset.key)));
+    document.getElementById('btn-limpiar-nf').addEventListener('click', () => pulsar('limpiar'));
+    document.getElementById('btn-prev').addEventListener('click', () => { if (pagina > 0) { pagina--; render(); } });
+    document.getElementById('btn-next').addEventListener('click', () => { pagina++; render(); });
     render();
 };
