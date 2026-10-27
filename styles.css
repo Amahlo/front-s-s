@@ -25,3 +25,103 @@ h1, h2, h3, h4, .font-display {
 .text-earth-950 { color: var(--earth-950) !important; }
 .text-earth-700 { color: var(--earth-700) !important; }
 .border-earth-600 { border-color: var(--earth-600) !important; }
+
+/* =========================================
+   HU-08: ALERTA DE INVENTARIO SEMÁFORO
+   ========================================= */
+
+.inventory-alert {
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    border: 6px solid var(--earth-600);
+    border-radius: 1rem;
+    background-color: var(--earth-200);
+}
+
+.inventory-alert.inventory-ok {
+    border-color: #1B5E20;
+    background-color: #C8E6C9;
+    color: #0B3D0B;
+}
+
+.inventory-alert.inventory-warning {
+    border-color: #FFD600;
+    background-color: #FFF3C4;
+    color: #3E2723;
+}
+
+.inventory-alert.inventory-danger {
+    border-color: #B71C1C;
+    background-color: #FFCDD2;
+    color: #4A0C0C;
+}
+
+.inventory-item {
+    background-color: #FFFFFF;
+    border: 5px solid var(--earth-600);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inventory-item.inventory-item-warning {
+    border-color: #FFD600;
+    background-color: #FFF8E1;
+}
+
+.inventory-item.inventory-item-danger {
+    border-color: #B71C1C;
+    background-color: #FFEBEE;
+}
+
+.inventory-name {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--earth-950);
+}
+
+.inventory-stock {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--earth-700);
+}
+
+.inventory-state {
+    font-size: 1.25rem;
+    font-weight: 900;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    align-self: flex-start;
+}
+
+.inventory-state-ok {
+    background-color: #C8E6C9;
+    color: #0B3D0B;
+}
+
+.inventory-state-warning {
+    background-color: #FFF3C4;
+    color: #3E2723;
+}
+
+.inventory-state-danger {
+    background-color: #FFCDD2;
+    color: #4A0C0C;
+}
+
+/* Borde amarillo en el botón principal cuando hay poco stock */
+.product-button-warning {
+    border: 6px solid #FFD600 !important;
+    box-shadow: 0 0 0 6px rgba(255, 214, 0, 0.45) !important;
+}
+
+.product-button-danger {
+    border: 6px solid #B71C1C !important;
+    box-shadow: 0 0 0 6px rgba(183, 28, 28, 0.35) !important;
+}

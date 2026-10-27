@@ -124,3 +124,157 @@ function toggleAudioAssist() {
 window.onload = function() {
     render();
 };
+
+/* =========================================
+   HU-08: ALERTA DE INVENTARIO SEMÁFORO
+   ========================================= */
+
+let inventory = {
+    'Perfume AAA Coco Chanel': { stock: 8, minStock: 3 },
+    'Perfume AAA Sauvage Dior': { stock: 5, minStock: 3 },
+    'Pijama Térmica S&S': { stock: 4, minStock: 3 },
+    'Aporte Natillera Colombiana': { stock: 20, minStock: 5 }
+};
+
+function getInventoryState(stock, minStock) {
+    if (stock <= 0) {
+        return 'danger';
+    }
+
+    if (stock <= minStock) {
+        return 'warning';
+    }
+
+    return 'ok';
+}
+
+function renderInventory() {
+    const inventoryList = document.getElementById('inventory-list');
+    const inventoryAlert = document.getElementById('inventory-alert');
+
+    inventoryList.innerHTML = '';
+
+    let lowStockProducts = [];
+
+    Object.keys(inventory).forEach(function(productName) {
+        const product = inventory[productName];
+        const state = getInventoryState(product.stock, product.minStock);
+
+        const item = document.createElement('li');
+        item.className = 'inventory-item';
+
+        if (state === 'warning') {
+            item.classList.add('inventory-item-warning');
+            lowStockProducts.push(productName);
+        }
+
+        if (state === 'danger') {
+            item.classList.add('inventory-item-danger');
+            lowStockProducts.push(productName);
+        }
+
+        const name = document.createElement('p');
+        name.className = 'inventory-name m-0';
+        name.textContent = productName;
+
+        const stock = document.createElement('output');
+        stock.className = 'inventory-stock';
+        stock.textContent = 'Stock: ' + product.stock;
+
+        const stateText = document.createElement('p');
+        stateText.className = 'inventory-state m-0';
+
+        if (state === 'ok') {
+            stateText.classList.add('inventory-state-ok');
+            stateText.textContent = 'STOCK SUFICIENTE';
+        } else if (state === 'warning') {
+            stateText.classList.add('inventory-state-warning');
+            stateText.textContent = 'POCO STOCK: HACER PEDIDO';
+        } else {
+            stateText.classList.add('inventory-state-danger');
+            stateText.textContent = 'SIN STOCK: PEDIDO URGENTE';
+        }
+
+        item.appendChild(name);
+        item.appendChild(stock);
+        item.appendChild(stateText);
+        inventoryList.appendChild(item);
+
+        updateProductButtonAlert(productName, state);
+    });
+
+    inventoryAlert.classList.remove('inventory-ok', 'inventory-warning', 'inventory-danger');
+
+    if (lowStockProducts.length > 0) {
+        if (lowStockProducts.length === 1) {
+            inventoryAlert.classList.add('inventory-warning');
+            inventoryAlert.textContent = 'ATENCIÓN: POCO STOCK DE ' + lowStockProducts[0].toUpperCase() + '.';
+        } else {
+            inventoryAlert.classList.add('inventory-danger');
+            inventoryAlert.textContent = 'ATENCIÓN: ' + lowStockProducts.length + ' PRODUCTOS NECESITAN PEDIDO.';
+        }
+    } else {
+        inventoryAlert.classList.add('inventory-ok');
+        inventoryAlert.textContent = 'TODO EL INVENTARIO TIENE STOCK SUFICIENTE.';
+    }
+}
+
+function updateProductButtonAlert(productName, state) {
+    const saleButtons = document.querySelectorAll('button[onclick*="addQuickSale"]');
+
+    saleButtons.forEach(function(button) {
+        const buttonHasProduct = button.textContent.toUpperCase().includes(productName.toUpperCase());
+
+        if (buttonHasProduct) {
+            button.classList.remove('product-button-warning', 'product-button-danger');
+
+            if (state === 'warning') {
+                button.classList.add('product-button-warning');
+            }
+
+            if (state === 'danger') {
+                button.classList.add('product-button-danger');
+            }
+        }
+    });
+}
+
+function decreaseInventory(productName) {
+    if (inventory[productName]) {
+        inventory[productName].stock = inventory[productName].stock - 1;
+
+        if (inventory[productName].stock < 0) {
+            inventory[productName].stock = 0;
+        }
+
+        renderInventory();
+    }
+}
+
+/* Escucha las ventas sin cambiar la función original addQuickSale */
+document.addEventListener('click', function(event) {
+    const clickedButton = event.target.closest('button');
+
+    if (!clickedButton) {
+        return;
+    }
+
+    const onclickValue = clickedButton.getAttribute('onclick');
+
+    if (!onclickValue || !onclickValue.includes('addQuickSale')) {
+        return;
+    }
+
+    Object.keys(inventory).forEach(function(productName) {
+        if (onclickValue.includes(productName)) {
+            setTimeout(function() {
+                decreaseInventory(productName);
+            }, 100);
+        }
+    });
+});
+
+/* Agrega el inventario al render inicial sin modificar window.onload original */
+document.addEventListener('DOMContentLoaded', function() {
+    renderInventory();
+});
