@@ -25,3 +25,21 @@ h1, h2, h3, h4, .font-display {
 .text-earth-950 { color: var(--earth-950) !important; }
 .text-earth-700 { color: var(--earth-700) !important; }
 .border-earth-600 { border-color: var(--earth-600) !important; }
+
+.loan-overlay {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 1.5rem;
+    border: 0;
+    color: #fff;
+    background-color: rgba(44, 26, 20, 0.97); /* earth-950 casi opaco */
+}
+/* Un dialog cerrado debe seguir oculto: solo usamos flex cuando está abierto */
+.loan-overlay[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
