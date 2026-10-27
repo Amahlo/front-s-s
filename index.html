@@ -1,321 +1,480 @@
 <!DOCTYPE html>
-<html lang="es" class="h-100">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S&S - Ventas Accesibles (Tonos Tierra)</title>
-    <!-- Bootstrap 5 CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>S&S POS y Natillera - Registro de Ventas (HU-02)</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;800;900&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     
-    
+    <!-- ==============================================================
+         ESTILOS INTEGRADOS — S&S POS Y NATILLERA
+         ============================================================== -->
+    <style>
+/* --------------------------------------------------------------------------
+   1. VARIABLES CSS (DESIGN TOKENS)
+   -------------------------------------------------------------------------- */
+:root {
+    --bg-dark: #1f120c;
+    --bg-darker: #120905;
+    --surface-card: #fff9f6;
+    --surface-cream: #fff1ec;
+    --brand-brown: #3e2723;
+    --brand-brown-dark: #2b1810;
+    --brand-terracotta: #b45309;
+    --brand-accent: #c25e1a;
+    --brand-gold: #fbbf24;
+    --brand-gold-soft: #fef3c7;
+    --brand-green: #15803d;
+    --brand-green-dark: #166534;
+    --brand-red-light: #fff1f2;
+    --brand-red-border: #fecdd3;
+    --brand-red-text: #be123c;
+
+    --font-scale: 1rem;
+    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --shadow-key: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   2. REINICIO & CONTENEDOR GENERAL
+   -------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    font-family: var(--font-main);
+    font-size: var(--font-scale);
+    color: #2b1d16;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.pos-wrapper {
+    width: 100%;
+    max-width: 680px;
+    min-height: 100vh;
+    background-color: var(--surface-card);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.7);
+    position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   3. CABECERA INSTITUCIONAL
+   -------------------------------------------------------------------------- */
+.pos-header {
+    background: linear-gradient(180deg, var(--brand-brown-dark) 0%, #1e0e07 100%);
+    color: #ffffff;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 2px solid rgba(251, 191, 36, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.brand-logo-badge {
+    width: 62px;
+    height: 62px;
+    background: linear-gradient(135deg, #d97706 0%, #92400e 100%);
+    border: 2px solid var(--brand-gold-soft);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.kpi-ventas-box {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    border-radius: var(--radius-md);
+    padding: 0.5rem 1.1rem;
+    text-align: right;
+    min-width: 160px;
+}
+
+.kpi-ventas-box .kpi-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--brand-gold);
+    font-weight: 800;
+}
+
+.kpi-ventas-box .kpi-value {
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--brand-gold);
+    line-height: 1.2;
+}
+
+/* --------------------------------------------------------------------------
+   4. PESTAÑAS DE NAVEGACIÓN
+   -------------------------------------------------------------------------- */
+.nav-tab-btn {
+    font-weight: 800;
+    font-size: 1rem;
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.nav-tab-btn.active-tab {
+    background: linear-gradient(180deg, var(--brand-terracotta) 0%, #92400e 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(180, 83, 9, 0.35);
+}
+
+.nav-tab-btn.inactive-tab {
+    background: #ffffff;
+    color: #78350f;
+    border: 1.5px solid #fed7aa;
+}
+
+.nav-tab-btn.inactive-tab:hover {
+    background: #fff7ed;
+}
+
+/* --------------------------------------------------------------------------
+   5. SELECTOR DE CATEGORÍA
+   -------------------------------------------------------------------------- */
+.category-btn {
+    border: 2px solid #fed7aa;
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 0.75rem;
+    background: #ffffff;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+}
+
+.category-btn:hover {
+    background: #fffaf0;
+    border-color: #fdba74;
+}
+
+.btn-check:checked + .category-btn-perfume {
+    background: linear-gradient(180deg, var(--brand-terracotta) 0%, #78350f 100%) !important;
+    color: #ffffff !important;
+    border-color: #92400e !important;
+    box-shadow: 0 6px 16px rgba(180, 83, 9, 0.35);
+}
+
+.btn-check:checked + .category-btn-perfume .badge-sub {
+    background-color: #92400e !important;
+    color: var(--brand-gold-soft) !important;
+}
+
+.btn-check:checked + .category-btn-clothes {
+    background: linear-gradient(180deg, var(--brand-accent) 0%, #9a3412 100%) !important;
+    color: #ffffff !important;
+    border-color: #7c2d12 !important;
+    box-shadow: 0 6px 16px rgba(194, 94, 26, 0.35);
+}
+
+.btn-check:checked + .category-btn-clothes .badge-sub {
+    background-color: #7c2d12 !important;
+    color: #ffedd5 !important;
+}
+
+.badge-sub {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background-color: #ffedd5;
+    color: #9a3412;
+}
+
+/* --------------------------------------------------------------------------
+   6. PANTALLA DIGITAL DE COBRO
+   -------------------------------------------------------------------------- */
+.pos-screen-display {
+    background: var(--bg-darker);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    color: #ffffff;
+    border: 2px solid #431407;
+    box-shadow: inset 0 4px 14px rgba(0, 0, 0, 0.85);
+    position: relative;
+}
+
+.pos-screen-amount {
+    font-family: var(--font-mono);
+    font-size: 2.85rem;
+    font-weight: 700;
+    color: var(--brand-gold);
+    letter-spacing: -1px;
+    line-height: 1.1;
+    text-shadow: 0 0 18px rgba(251, 191, 36, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   7. TECLADO TÁCTIL
+   -------------------------------------------------------------------------- */
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.key-pos {
+    height: 68px;
+    font-size: 1.9rem;
+    font-weight: 800;
+    background: #ffffff;
+    color: #27130a;
+    border: 2px solid #fed7aa;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-key);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.08s ease, background-color 0.1s ease;
+}
+
+.key-pos:hover {
+    background-color: #fff7ed;
+    border-color: #fdba74;
+}
+
+.key-pos:active {
+    transform: scale(0.96);
+    background-color: #ffedd5;
+}
+
+.key-pos.key-backspace {
+    background: #ffedd5;
+    color: var(--brand-terracotta);
+    border-color: #fdba74;
+}
+
+.btn-clear-all {
+    height: 52px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    background: var(--brand-red-light);
+    color: var(--brand-red-text);
+    border: 1.5px solid var(--brand-red-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.btn-clear-all:hover {
+    background: #ffe4e6;
+    border-color: #fda4af;
+}
+
+/* --------------------------------------------------------------------------
+   8. BOTÓN PRINCIPAL: VENDER
+   -------------------------------------------------------------------------- */
+.btn-vender-primary {
+    height: 70px;
+    font-size: 1.45rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    background: linear-gradient(180deg, var(--brand-green) 0%, var(--brand-green-dark) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 20px rgba(22, 101, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: transform 0.1s ease;
+}
+
+.btn-vender-primary:hover {
+    background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+    box-shadow: 0 8px 24px rgba(22, 101, 52, 0.5);
+}
+
+.btn-vender-primary:active {
+    transform: scale(0.98);
+    background: #14532d;
+}
+
+/* --------------------------------------------------------------------------
+   9. ASISTENTE DE VOZ INFERIOR
+   -------------------------------------------------------------------------- */
+.voice-bar {
+    background: linear-gradient(90deg, var(--brand-terracotta) 0%, var(--brand-accent) 100%);
+    color: #ffffff;
+    padding: 0.95rem 1.4rem;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   10. MODAL DE CONFIRMACIÓN
+   -------------------------------------------------------------------------- */
+.modal-success-card {
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    border: 3px solid #16a34a;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+    padding: 2.25rem 1.75rem;
+    text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   11. MODO ALTO CONTRASTE — WCAG AAA
+   -------------------------------------------------------------------------- */
+body.high-contrast {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast .pos-wrapper {
+    background: #000000 !important;
+    border: 4px solid #ffff00 !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast .pos-header {
+    background: #000000 !important;
+    border-bottom: 3px solid #ffff00 !important;
+}
+
+body.high-contrast .pos-screen-display {
+    background: #000000 !important;
+    border: 3px solid #ffff00 !important;
+}
+
+body.high-contrast .pos-screen-amount {
+    color: #ffff00 !important;
+    text-shadow: none !important;
+}
+
+body.high-contrast .key-pos {
+    background: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast .key-pos:active {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+body.high-contrast .category-btn {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+}
+
+body.high-contrast .btn-check:checked + .category-btn {
+    background: #ffff00 !important;
+    color: #000000 !important;
+    border-color: #ffff00 !important;
+}
+
+body.high-contrast .btn-vender-primary {
+    background: #00e676 !important;
+    color: #000000 !important;
+    border: 3px solid #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   12. RESPONSIVE — MÓVIL
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .pos-header { padding: 1rem; }
+    .brand-logo-badge { width: 50px; height: 50px; font-size: 1.25rem; }
+    .pos-screen-amount { font-size: 2.3rem; }
+    .key-pos { height: 60px; font-size: 1.6rem; }
+    .btn-vender-primary { height: 62px; font-size: 1.25rem; }
+}
+    </style>
 </head>
+<body>
 
-<body id="app-body" class="d-flex flex-column min-vh-100">
-
-    <!-- TOP ACCESSIBILITY TOOLBAR -->
-    <aside class="bg-earth-950 text-light border-bottom border-4 border-earth-600 px-3 py-2" aria-label="Barra de Accesibilidad">
-        <nav class="container-xxl d-flex flex-wrap align-items-center justify-content-between gap-3">
-            
-            <section class="d-flex align-items-center gap-3">
-                <span class="badge text-warning bg-earth-900 px-3 py-2 fs-6 border border-warning shadow-sm">
-                    <i class="fa-solid fa-eye me-2" aria-hidden="true"></i> Modo Accesible
+<main class="pos-wrapper">
+    <!-- BARRA DE ACCESIBILIDAD SUPERIOR -->
+    <header class="pos-header">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-warning text-dark fw-bold px-2 py-1">
+                    <i class="bi bi-shield-check me-1"></i>MODO ACCESIBLE
                 </span>
-                <span class="small fw-bold text-light d-none d-sm-inline">S&S - Susana & Salome</span>
-            </section>
-
-            <!-- Accessibility Controls -->
-            <section class="d-flex align-items-center flex-wrap gap-2">
-                <button onclick="toggleAudioAssist()" id="btn-audio-assist" class="btn btn-danger fw-bold d-flex align-items-center gap-2 shadow-sm">
-                    <i id="audio-icon" class="fa-solid fa-volume-high" aria-hidden="true"></i>
-                    <span id="audio-btn-text">Voz Guiada: SI</span>
-                </button>
-
-                <button onclick="toggleHighContrast()" class="btn btn-warning fw-black d-flex align-items-center gap-2 shadow-sm text-dark">
-                    <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i>
-                    <span>Alto Contraste</span>
-                </button>
-
-                <nav class="btn-group bg-earth-900 p-1 rounded border border-secondary" aria-label="Ajustar tamaño de letra">
-                    <span class="text-warning small fw-bold px-2 align-self-center">Letra:</span>
-                    <button onclick="setFontScale(1)" class="btn btn-sm btn-dark fw-bold text-light">A</button>
-                    <button onclick="setFontScale(2)" class="btn btn-sm btn-dark fw-bold text-light">A+</button>
-                    <button onclick="setFontScale(3)" class="btn btn-sm btn-dark fw-bold text-light">A++</button>
-                </nav>
-            </section>
-        </nav>
-    </aside>
-
-    <!-- MAIN APP HEADER -->
-    <header class="bg-earth-900 border-bottom border-5 border-earth-700 py-4 px-3 shadow-lg">
-        <div class="container-xxl d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
-            
-            <hgroup class="d-flex align-items-center gap-4 text-center text-md-start">
-                <figure class="bg-gradient bg-warning text-earth-950 rounded-4 d-flex align-items-center justify-content-center fw-black fs-2 shadow-lg border border-warning m-0" style="width: 80px; height: 80px;">
-                    S&S
-                </figure>
-                <article>
-                    <h1 class="h3 fw-black text-white m-0">S&S POS Y NATILLERA</h1>
-                    <p class="text-warning fw-bold m-0 small mt-1">Lociones AAA • Ropa y Pijamas • Natillera Colombiana</p>
-                </article>
-            </hgroup>
-
-            <!-- HU-03 REQUIREMENT: GIGANTIC DAILY SALES DISPLAY -->
-            <aside class="card bg-earth-950 border border-warning border-3 rounded-4 p-4 shadow-lg text-center text-md-end w-100 w-md-auto">
-                <span class="small fw-bold text-warning uppercase tracking-wide d-flex align-items-center justify-content-center justify-content-md-end gap-2">
-                    <i class="fa-solid fa-calculator text-warning" aria-hidden="true"></i>
-                    <span>VENTAS DE HOY (HU-03)</span>
+                <span class="badge bg-dark border border-secondary text-light px-2 py-1">
+                    <i class="bi bi-person-fill me-1"></i>S&S • Susana & Salome
                 </span>
-                <output id="daily-total-display" class="font-display fw-black text-warning fs-1 my-1">
-                    $1.450.000 <span class="fs-4 text-light">COP</span>
-                </output>
-                <time class="small text-light d-flex align-items-center justify-content-center justify-content-md-end gap-1">
-                    <i class="fa-solid fa-clock-rotate-left text-warning" aria-hidden="true"></i>
-                    <span>Reinicio automático a las <span id="reloj">90</span></span>
-                </time>
-            </aside>
-
+            </div>
+            <div class="d-flex align-items-center gap-1">
+                <button class="btn btn-sm btn-outline-warning text-white px-2" id="toggleVoiceBtn" onclick="toggleVoice()">
+                    <i class="bi bi-volume-up-fill me-1"></i>Voz: <strong id="voiceStateLabel">SÍ</strong>
+                </button>
+                <button class="btn btn-sm btn-outline-light px-2" onclick="toggleContrast()">
+                    <i class="bi bi-circle-half me-1"></i>Contraste
+                </button>
+                <div class="btn-group btn-group-sm ms-1" role="group">
+                    <button class="btn btn-outline-light" onclick="setFontScale('1rem')">A</button>
+                    <button class="btn btn-outline-light" onclick="setFontScale('1.15rem')">A+</button>
+                    <button class="btn btn-outline-light" onclick="setFontScale('1.3rem')">A++</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <div class="brand-logo-badge">S&S</div>
+                <div>
+                    <h1 class="h4 mb-0 fw-bold text-white">S&S POS Y NATILLERA</h1>
+                    <small class="text-warning opacity-75">Lociones AAA • Ropa y Pijamas • Natillera</small>
+                </div>
+            </div>
+            <div class="kpi-ventas-box">
+                <div class="kpi-label mb-1">
+                    <i class="bi bi-graph-up-arrow me-1"></i>Ventas de Hoy (POS)
+                </div>
+                <div class="kpi-value" id="kpiTotalVentas">$1.450.000</div>
+                <small class="text-white-50" style="font-size: 0.68rem;">Acumulado automático en vivo</small>
+            </div>
         </div>
     </header>
 
-    <!-- CONTENT BODY -->
-    <main class="container-xxl flex-grow-1 py-4 px-3 vstack gap-4">
-
-        <!-- INFO BANNER -->
-        <aside class="card bg-earth-100 border border-4 border-earth-600 rounded-4 p-4 shadow-sm">
-            <article class="d-flex align-items-start gap-3">
-                <figure class="bg-earth-600 text-white rounded-3 d-flex align-items-center justify-content-center fs-3 m-0 shadow" style="width: 50px; height: 50px; flex-shrink: 0;">
-                    <i class="fa-solid fa-info" aria-hidden="true"></i>
-                </figure>
-                <p class="fs-6 fw-bold text-earth-950 m-0 align-self-center">
-                    <strong class="text-earth-700 d-block small mb-1">Información:</strong>
-                    Cada transacción registrada en esta pantalla actualiza de inmediato el total acumulado de ventas ubicado en la esquina superior derecha.
-                </p>
-            </article>
-        </aside>
-
-        <!-- NAVIGATION TABS -->
-        <nav class="row g-3" aria-label="Navegación de módulos">
-            <article class="col-12 col-md-6">
-                <button onclick="switchTab('ventas')" id="tab-btn-ventas" class="btn btn-danger w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2">
-                    <i class="fa-solid fa-cash-register fs-4 text-warning" aria-hidden="true"></i>
-                    <span>1. REGISTRAR VENTAS</span>
-                </button>
-            </article>
-            <article class="col-12 col-md-6">
-                <button onclick="switchTab('natillera')" id="tab-btn-natillera" class="btn btn-earth-200 bg-earth-200 text-earth-950 w-100 py-3 fw-black fs-5 rounded-4 shadow d-flex align-items-center justify-content-center gap-2 border border-secondary">
-                    <i class="fa-solid fa-piggy-bank fs-4 text-earth-700" aria-hidden="true"></i>
-                    <span>2. VER NATILLERA (AHORROS)</span>
-                </button>
-            </article>
-        </nav>
-
-        <!-- MODULE 1: REGISTRO DE VENTAS -->
-        <section id="module-ventas" class="vstack gap-4">
-            
-            <h2 class="h5 fw-black text-earth-900 d-flex align-items-center gap-2 m-0">
-                <i class="fa-solid fa-hand-pointer text-earth-600" aria-hidden="true"></i>
-                <span>PRESIONE UN BOTÓN GRANDE PARA SUMAR UNA VENTA DE HOY:</span>
-            </h2>
-
-            <!-- PRODUCT BUTTONS GRID -->
-            <div class="row g-3">
-
-                <!-- LOCION AAA 1 -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Perfume AAA Coco Chanel', 180000, 'Loción AAA')" onmouseenter="speakPrompt('Boton grande: Sumar perfume Coco Chanel por ciento ochenta mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-spray-can" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">LOCIÓN AAA</span>
-                                <h3 class="h5 fw-black text-white m-0">Perfume Coco Chanel 100ml</h3>
-                                <output class="fs-5 fw-black text-warning">$180.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
-                </article>
-
-                <!-- LOCION AAA 2 -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Perfume AAA Sauvage Dior', 195000, 'Loción AAA')" onmouseenter="speakPrompt('Boton grande: Sumar perfume Sauvage Dior por ciento noventa y cinco mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-bottle-droplet" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">LOCIÓN AAA</span>
-                                <h3 class="h5 fw-black text-white m-0">Perfume Sauvage Dior 100ml</h3>
-                                <output class="fs-5 fw-black text-warning">$195.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
-                </article>
-
-                <!-- MERCANCIA / PIJAMA -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Pijama Térmica S&S', 110000, 'Ropa/Pijama')" onmouseenter="speakPrompt('Boton grande: Sumar pijama termica por ciento diez mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-shirt" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">MERCANCÍA</span>
-                                <h3 class="h5 fw-black text-white m-0">Pijama Térmica S&S Seda</h3>
-                                <output class="fs-5 fw-black text-warning">$110.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
-                </article>
-
-                <!-- APORTE NATILLERA -->
-                <article class="col-12 col-lg-6">
-                    <button onclick="addQuickSale('Aporte Natillera Colombiana', 100000, 'Natillera')" onmouseenter="speakPrompt('Boton grande: Sumar aporte de natillera por cien mil pesos')" class="card bg-earth-900 text-white w-100 p-4 border border-3 border-secondary rounded-4 shadow text-start d-flex flex-row align-items-center justify-content-between transition">
-                        <section class="d-flex align-items-center gap-3">
-                            <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                                <i class="fa-solid fa-piggy-bank" aria-hidden="true"></i>
-                            </figure>
-                            <article>
-                                <span class="small fw-black text-warning">NATILLERA S&S</span>
-                                <h3 class="h5 fw-black text-white m-0">Cuota Natillera Mensual</h3>
-                                <output class="fs-5 fw-black text-warning">$100.000 COP</output>
-                            </article>
-                        </section>
-                        <span class="badge bg-earth-600 text-white p-3 fs-6 border border-warning shadow">
-                            <i class="fa-solid fa-plus" aria-hidden="true"></i> SUMAR
-                        </span>
-                    </button>
-                </article>
-
-            </div>
-
-            <!-- MANUAL ENTRY SECTION -->
-            <section class="card bg-earth-100 border border-4 border-earth-600 rounded-4 p-4 shadow-sm">
-                <h3 class="h5 fw-black text-earth-900 d-flex align-items-center gap-2 mb-3">
-                    <i class="fa-solid fa-keyboard text-earth-600" aria-hidden="true"></i>
-                    <span>ESCRIBIR UN VALOR DIFERENTE:</span>
-                </h3>
-                <form onsubmit="handleManualSale(event)" class="row g-3">
-                    <article class="col-12 col-md-5">
-                        <input type="text" id="manual-name" placeholder="Nombre (ej. Vestido)" required class="form-control form-control-lg fw-bold border-2">
-                    </article>
-                    <article class="col-12 col-md-4">
-                        <input type="number" id="manual-price" placeholder="Monto COP ($)" required class="form-control form-control-lg fw-bold border-2">
-                    </article>
-                    <article class="col-12 col-md-3">
-                        <button type="submit" class="btn btn-warning fw-black btn-lg w-100 shadow d-flex align-items-center justify-content-center gap-2">
-                            <i class="fa-solid fa-plus-circle" aria-hidden="true"></i>
-                            <span>REGISTRAR</span>
-                        </button>
-                    </article>
-                </form>
-            </section>
-
-            <!-- RECENT TRANSACTIONS DISPLAY -->
-            <section class="card bg-earth-900 text-white border border-3 border-secondary rounded-4 p-4 shadow">
-                <header class="d-flex align-items-center justify-content-between border-bottom border-secondary pb-3 mb-3">
-                    <h3 class="h5 fw-black text-white m-0 d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-list-check text-warning" aria-hidden="true"></i>
-                        <span>VENTAS REGISTRADAS HOY</span>
-                    </h3>
-                    <button onclick="resetDailyTotal()" class="btn btn-sm btn-danger fw-bold d-flex align-items-center gap-1">
-                        <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
-                        <span>REINICIAR A $0</span>
-                    </button>
-                </header>
-
-                <div id="transactions-container" class="vstack gap-2 overflow-y-auto" style="max-height: 320px;">
-                    <!-- Dynamic entries injected via JS -->
-                </div>
-            </section>
-
-        </section>
-
-        <!-- MODULE 2: NATILLERA S&S -->
-        <section id="module-natillera" class="vstack gap-4 d-none">
-            <article class="card bg-earth-900 text-white border border-warning border-3 rounded-4 p-4 shadow">
-                <section class="d-flex align-items-center gap-3">
-                    <figure class="bg-warning text-earth-950 rounded-3 d-flex align-items-center justify-content-center fs-2 m-0 shadow" style="width: 60px; height: 60px;">
-                        <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
-                    </figure>
-                    <article>
-                        <h2 class="h4 fw-black text-white m-0">MÓDULO DE NATILLERA S&S</h2>
-                        <p class="text-warning fw-bold m-0 small">Fondo de Ahorro y Préstamos para Socios</p>
-                    </article>
-                </section>
-
-                <div class="row g-3 mt-3">
-                    <article class="col-12 col-sm-6">
-                        <div class="bg-earth-950 border border-warning p-3 rounded-3">
-                            <span class="small fw-black text-warning">FONDO TOTAL ACUMULADO</span>
-                            <output class="h3 fw-black text-white d-block m-0 mt-1">$14.850.000 COP</output>
-                        </div>
-                    </article>
-                    <article class="col-12 col-sm-6">
-                        <div class="bg-earth-950 border border-warning p-3 rounded-3">
-                            <span class="small fw-black text-warning">PRÉSTAMOS ACTIVOS</span>
-                            <output class="h3 fw-black text-warning d-block m-0 mt-1">$4.200.000 COP</output>
-                        </div>
-                    </article>
-                </div>
-            </article>
-
-            <article class="card bg-earth-100 border border-3 border-secondary rounded-4 p-4 shadow">
-                <h3 class="h5 fw-black text-earth-950 mb-3">SOCIOS DE LA NATILLERA:</h3>
-                
-                <div class="vstack gap-3">
-                    <section class="card bg-white p-3 border border-secondary rounded-3 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 shadow-sm">
-                        <article>
-                            <h4 class="h5 fw-black text-earth-950 m-0">Deerly Hernandez</h4>
-                            <p class="small text-earth-700 fw-bold m-0">Ahorro: $1.200.000 COP • Estado: AL DÍA</p>
-                        </article>
-                        <button onclick="addQuickSale('Aporte Natillera Deerly', 100000, 'Natillera'); switchTab('ventas');" class="btn btn-earth-600 bg-earth-600 text-white fw-black btn-sm">
-                            + REGISTRAR APORTE DE $100.000
-                        </button>
-                    </section>
-
-                    <section class="card bg-white p-3 border border-secondary rounded-3 d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-3 shadow-sm">
-                        <article>
-                            <h4 class="h5 fw-black text-earth-950 m-0">Carlos Gomez</h4>
-                            <p class="small text-earth-700 fw-bold m-0">Ahorro: $900.000 COP • Préstamo: $500.000 COP</p>
-                        </article>
-                        <button onclick="addQuickSale('Aporte Natillera Carlos', 100000, 'Natillera'); switchTab('ventas');" class="btn btn-earth-600 bg-earth-600 text-white fw-black btn-sm">
-                            + REGISTRAR APORTE DE $100.000
-                        </button>
-                    </section>
-                </div>
-            </article>
-        </section>
-
-    </main>
-
-    <!-- VOICE ASSISTANT BAR -->
-    <aside id="voice-assistant-bar" class="bg-warning text-earth-950 border-top border-3 border-light p-3 sticky-bottom shadow-lg" aria-label="Asistente de voz">
-        <section class="container-xxl d-flex align-items-center gap-3">
-            <figure class="bg-earth-950 text-warning rounded-3 d-flex align-items-center justify-content-center fs-3 m-0 shadow" style="width: 50px; height: 50px; flex-shrink: 0;">
-                <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
-            </figure>
-            <article class="flex-grow-1">
-                <span class="small fw-black text-uppercase d-block">ASISTENTE DE VOZ INTEGRADO:</span>
-                <output id="spoken-text" class="fw-black fs-6">
-                    "Presione cualquiera de los botones grandes para sumar una venta al total ubicado en la esquina superior derecha."
-                </output>
-            </article>
-        </section>
-    </aside>
-
-   
+    <div class="p-3 p-md-

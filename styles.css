@@ -1,27 +1,453 @@
+/* ==========================================================================
+   S&S POS Y NATILLERA - SISTEMA DE DISEÑO & ESTILOS POS (HU-02)
+   Autor: Cristian Osorio / Susana & Salome
+   Framework: Bootstrap 5 compatible
+   ========================================================================== */
 
+/* --------------------------------------------------------------------------
+   1. VARIABLES CSS (DESIGN TOKENS)
+   -------------------------------------------------------------------------- */
 :root {
-    --earth-50: #FDFBF7;
-    --earth-100: #F5EFE6;
-    --earth-200: #EADBC8;
-    --earth-300: #DAC0A3;
-    --earth-600: #B84A2A;
-    --earth-700: #9C4027;
-    --earth-900: #3E2723;
-    --earth-950: #2C1A14;
+    /* Paleta cromática corporativa S&S */
+    --bg-dark: #1f120c;
+    --bg-darker: #120905;
+    --surface-card: #fff9f6;
+    --surface-cream: #fff1ec;
+    --brand-brown: #3e2723;
+    --brand-brown-dark: #2b1810;
+    --brand-terracotta: #b45309;
+    --brand-accent: #c25e1a;
+    --brand-gold: #fbbf24;
+    --brand-gold-soft: #fef3c7;
+    --brand-green: #15803d;
+    --brand-green-dark: #166534;
+    --brand-red-light: #fff1f2;
+    --brand-red-border: #fecdd3;
+    --brand-red-text: #be123c;
+
+    /* Escala tipográfica accesible */
+    --font-scale: 1rem;
+    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Elevaciones & Bordes */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --shadow-key: 0 4px 10px rgba(0, 0, 0, 0.08);
+    --shadow-focus: 0 0 0 3px rgba(245, 158, 11, 0.45);
 }
+
+/* --------------------------------------------------------------------------
+   2. REINICIO & CONTENEDOR GENERAL
+   -------------------------------------------------------------------------- */
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: var(--earth-50);
-    color: var(--earth-950);
+    background-color: var(--bg-dark);
+    font-family: var(--font-main);
+    font-size: var(--font-scale);
+    color: #2b1d16;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
 }
-h1, h2, h3, h4, .font-display {
-    font-family: 'Outfit', sans-serif;
+
+/* Marco central estilo terminal POS táctil */
+.pos-wrapper {
+    width: 100%;
+    max-width: 680px;
+    min-height: 100vh;
+    background-color: var(--surface-card);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.7);
+    position: relative;
 }
-.bg-earth-950 { background-color: var(--earth-950) !important; }
-.bg-earth-900 { background-color: var(--earth-900) !important; }
-.bg-earth-600 { background-color: var(--earth-600) !important; }
-.bg-earth-100 { background-color: var(--earth-100) !important; }
-.bg-earth-200 { background-color: var(--earth-200) !important; }
-.text-earth-950 { color: var(--earth-950) !important; }
-.text-earth-700 { color: var(--earth-700) !important; }
-.border-earth-600 { border-color: var(--earth-600) !important; }
+
+/* --------------------------------------------------------------------------
+   3. CABECERA INSTITUCIONAL & BARRA DE ACCESIBILIDAD
+   -------------------------------------------------------------------------- */
+.pos-header {
+    background: linear-gradient(180deg, var(--brand-brown-dark) 0%, #1e0e07 100%);
+    color: #ffffff;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 2px solid rgba(251, 191, 36, 0.25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Logo S&S */
+.brand-logo-badge {
+    width: 62px;
+    height: 62px;
+    background: linear-gradient(135deg, #d97706 0%, #92400e 100%);
+    border: 2px solid var(--brand-gold-soft);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Módulo Acumulado en Vivo */
+.kpi-ventas-box {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    border-radius: var(--radius-md);
+    padding: 0.5rem 1.1rem;
+    text-align: right;
+    min-width: 160px;
+}
+
+.kpi-ventas-box .kpi-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--brand-gold);
+    font-weight: 800;
+}
+
+.kpi-ventas-box .kpi-value {
+    font-family: var(--font-mono);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--brand-gold);
+    line-height: 1.2;
+}
+
+/* --------------------------------------------------------------------------
+   4. PESTAÑAS DE NAVEGACIÓN SUPERIOR
+   -------------------------------------------------------------------------- */
+.nav-tab-btn {
+    font-weight: 800;
+    font-size: 1rem;
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.nav-tab-btn.active-tab {
+    background: linear-gradient(180deg, var(--brand-terracotta) 0%, #92400e 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(180, 83, 9, 0.35);
+}
+
+.nav-tab-btn.inactive-tab {
+    background: #ffffff;
+    color: #78350f;
+    border: 1.5px solid #fed7aa;
+}
+
+.nav-tab-btn.inactive-tab:hover {
+    background: #fff7ed;
+}
+
+/* --------------------------------------------------------------------------
+   5. SELECTOR DE CATEGORÍA TÁCTIL
+   -------------------------------------------------------------------------- */
+.category-btn {
+    border: 2px solid #fed7aa;
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 0.75rem;
+    background: #ffffff;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+}
+
+.category-btn:hover {
+    background: #fffaf0;
+    border-color: #fdba74;
+}
+
+/* Estado activo: Lociones AAA */
+.btn-check:checked + .category-btn-perfume {
+    background: linear-gradient(180deg, var(--brand-terracotta) 0%, #78350f 100%) !important;
+    color: #ffffff !important;
+    border-color: #92400e !important;
+    box-shadow: 0 6px 16px rgba(180, 83, 9, 0.35);
+}
+
+.btn-check:checked + .category-btn-perfume .badge-sub {
+    background-color: #92400e !important;
+    color: var(--brand-gold-soft) !important;
+}
+
+/* Estado activo: Ropa / Pijamas */
+.btn-check:checked + .category-btn-clothes {
+    background: linear-gradient(180deg, var(--brand-accent) 0%, #9a3412 100%) !important;
+    color: #ffffff !important;
+    border-color: #7c2d12 !important;
+    box-shadow: 0 6px 16px rgba(194, 94, 26, 0.35);
+}
+
+.btn-check:checked + .category-btn-clothes .badge-sub {
+    background-color: #7c2d12 !important;
+    color: #ffedd5 !important;
+}
+
+.badge-sub {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background-color: #ffedd5;
+    color: #9a3412;
+}
+
+/* --------------------------------------------------------------------------
+   6. PANTALLA DIGITAL DE COBRO
+   -------------------------------------------------------------------------- */
+.pos-screen-display {
+    background: var(--bg-darker);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    color: #ffffff;
+    border: 2px solid #431407;
+    box-shadow: inset 0 4px 14px rgba(0, 0, 0, 0.85);
+    position: relative;
+}
+
+.pos-screen-amount {
+    font-family: var(--font-mono);
+    font-size: 2.85rem;
+    font-weight: 700;
+    color: var(--brand-gold);
+    letter-spacing: -1px;
+    line-height: 1.1;
+    text-shadow: 0 0 18px rgba(251, 191, 36, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   7. TECLADO TÁCTIL POS
+   -------------------------------------------------------------------------- */
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.key-pos {
+    height: 68px;
+    font-size: 1.9rem;
+    font-weight: 800;
+    background: #ffffff;
+    color: #27130a;
+    border: 2px solid #fed7aa;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-key);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    cursor: pointer;
+    transition: transform 0.08s ease, background-color 0.1s ease, border-color 0.1s ease;
+}
+
+.key-pos:hover {
+    background-color: #fff7ed;
+    border-color: #fdba74;
+}
+
+.key-pos:active {
+    transform: scale(0.96);
+    background-color: #ffedd5;
+}
+
+/* Tecla Borrar dígito */
+.key-pos.key-backspace {
+    background: #ffedd5;
+    color: var(--brand-terracotta);
+    border-color: #fdba74;
+}
+
+.key-pos.key-backspace:hover {
+    background: #fed7aa;
+}
+
+/* Botón Limpiar Todo */
+.btn-clear-all {
+    height: 52px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    background: var(--brand-red-light);
+    color: var(--brand-red-text);
+    border: 1.5px solid var(--brand-red-border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.btn-clear-all:hover {
+    background: #ffe4e6;
+    border-color: #fda4af;
+}
+
+.btn-clear-all:active {
+    transform: scale(0.98);
+}
+
+/* --------------------------------------------------------------------------
+   8. BOTÓN PRINCIPAL: VENDER
+   -------------------------------------------------------------------------- */
+.btn-vender-primary {
+    height: 70px;
+    font-size: 1.45rem;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    background: linear-gradient(180deg, var(--brand-green) 0%, var(--brand-green-dark) 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 20px rgba(22, 101, 52, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.btn-vender-primary:hover {
+    background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+    box-shadow: 0 8px 24px rgba(22, 101, 52, 0.5);
+}
+
+.btn-vender-primary:active {
+    transform: scale(0.98);
+    background: #14532d;
+}
+
+/* --------------------------------------------------------------------------
+   9. ASISTENTE DE VOZ INFERIOR
+   -------------------------------------------------------------------------- */
+.voice-bar {
+    background: linear-gradient(90deg, var(--brand-terracotta) 0%, var(--brand-accent) 100%);
+    color: #ffffff;
+    padding: 0.95rem 1.4rem;
+    font-size: 0.88rem;
+    line-height: 1.35;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   10. MODAL DE CONFIRMACIÓN
+   -------------------------------------------------------------------------- */
+.modal-success-card {
+    background: #ffffff;
+    border-radius: var(--radius-xl);
+    border: 3px solid #16a34a;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
+    padding: 2.25rem 1.75rem;
+    text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   11. MODO ALTO CONTRASTE — WCAG AAA
+   -------------------------------------------------------------------------- */
+body.high-contrast {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+body.high-contrast .pos-wrapper {
+    background: #000000 !important;
+    border: 4px solid #ffff00 !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast .pos-header {
+    background: #000000 !important;
+    border-bottom: 3px solid #ffff00 !important;
+}
+
+body.high-contrast .pos-screen-display {
+    background: #000000 !important;
+    border: 3px solid #ffff00 !important;
+}
+
+body.high-contrast .pos-screen-amount {
+    color: #ffff00 !important;
+    text-shadow: none !important;
+}
+
+body.high-contrast .key-pos {
+    background: #000000 !important;
+    color: #ffff00 !important;
+    border: 2px solid #ffff00 !important;
+    box-shadow: none !important;
+}
+
+body.high-contrast .key-pos:active {
+    background: #ffff00 !important;
+    color: #000000 !important;
+}
+
+body.high-contrast .category-btn {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+}
+
+body.high-contrast .btn-check:checked + .category-btn {
+    background: #ffff00 !important;
+    color: #000000 !important;
+    border-color: #ffff00 !important;
+}
+
+body.high-contrast .btn-vender-primary {
+    background: #00e676 !important;
+    color: #000000 !important;
+    border: 3px solid #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   12. RESPONSIVE — MÓVIL
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+    .pos-header {
+        padding: 1rem;
+    }
+
+    .brand-logo-badge {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+
+    .pos-screen-amount {
+        font-size: 2.3rem;
+    }
+
+    .key-pos {
+        height: 60px;
+        font-size: 1.6rem;
+    }
+
+    .btn-vender-primary {
+        height: 62px;
+        font-size: 1.25rem;
+    }
+}
